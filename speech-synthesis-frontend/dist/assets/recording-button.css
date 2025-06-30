@@ -1,0 +1,131 @@
+/* Style du bouton */
+.big-round-button,
+.big-round-button-pause,
+.big-round-button-resume {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; /* Rond parfait */
+  border: 0 8px 15px var(--background-color);
+  color: white;
+  font-size: 2.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: var(--primary-color);
+  transform: scale(1.1);
+  box-shadow:
+    0 4px 8px var(--primary-color),
+    /* ombre douce classique */ 0 0 20px var(--primary-color); /* halo lumineux bleu clair */
+border: 1px solid black;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+
+.big-round-button-pause,
+.big-round-button-resume{
+  background-color: var(--red-button);
+  box-shadow:
+    0 4px 8px var(--red-button),
+    /* ombre douce classique */ 0 0 20px var(--red-button);
+}
+
+.big-round-button img {
+  width: 17vh;
+  height: 17vh;
+    width: 17dvh;
+  height: 17dvh;
+  stroke: #000; /* ou white si fond sombre */
+  color: black;
+  transform: scaleX(-1);
+  padding-right: 30px;
+}
+
+.big-round-button-pause img {
+  width: 17vh;
+  height: 17vh;
+    width: 17dvh;
+  height: 17dvh;
+  stroke: #000; /* ou white si fond sombre */
+  color: black;
+  transform: scaleX(-1);
+}
+
+.big-round-button-resume img {
+  width: 17vh;
+  height: 17vh;
+    width: 17dvh;
+  height: 17dvh;
+  stroke: #000; /* ou white si fond sombre */
+  color: black;
+  transform: scaleX(-1);
+  padding-right: 30px;
+}
+
+.big-round-button:hover {
+  box-shadow:
+    0 6px 10px rgb(0 0 0 / 20%),
+    0 0 30px rgb(0 123 255 / 60%),
+    /* halo plus intense */ inset 0 2px 6px var(--primary-color) inset 0 -2px
+      4px rgb(0 0 0 / 15%);
+  transform: scale(1.05);
+}
+
+.big-round-button:active {
+  box-shadow:
+    0 2px 4px var(--red-button),
+    0 0 15px var(--red-button);
+  transform: scale(0.97);
+}
+
+.big-round-button-pause:hover {
+  box-shadow:
+    0 6px 10px rgb(0 0 0 / 20%),
+    0 0 30px rgb(0 123 255 / 60%),
+    /* halo plus intense */ inset 0 2px 6px var(--red-button) inset 0 -2px 4px var(--red-button);
+  transform: scale(1.05);
+}
+
+.big-round-button-pause:active {
+  box-shadow:
+    0 2px 4px var(--primary-color),
+    0 0 15px var(--primary-color);
+  transform: scale(0.97);
+}
+
+.getsynthese {
+  background-color: var(--secondary-color);
+  align-items: center;
+  justify-content: center;
+  height: 6vh;
+    height: 6dvh;
+  width: 70%;
+  border-radius: 30px;
+  padding: 2vh;
+    padding: 2dvh;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  border: 2px solid black;
+}
+
+@media (height <= 550px) {
+  .big-round-button img {
+    width: 10vh;
+    height: 10vh;
+        width: 10dvh;
+    height: 10dvh;
+    stroke: #000; /* ou white si fond sombre */
+    color: black;
+    transform: scaleX(-1);
+    padding-right: 0;
+  }
+
+  .getsynthese {
+    height: 1vh;
+  }
+}

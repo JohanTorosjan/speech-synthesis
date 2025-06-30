@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" viewBox="0 0 700 700">
+ <defs>
+  <style type="text/css">
+    .fil2 {fill:#2B2A29}
+    .fil0 {fill:#2B2A29}
+    .fil5 {fill:#FEFEFE}
+    .fil1 {fill:url(#h)}
+    .fil3 {fill:url(#i)}
+    .fil4 {fill:url(#j)}
+  </style>
+   <mask id="f">
+  <linearGradient id="g" x1="350" x2="350" y1="60.72" y2="323.72" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+    <rect x="149" y="61" width="402" height="263" fill="url(#g)"/>
+   </mask>
+  <linearGradient id="h" x1="350" x2="350" y1="65.05" y2="634.95" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#B2B3B3" offset="0"/>
+   <stop stop-color="#D9DADA" offset="1"/>
+  </linearGradient>
+  <linearGradient id="i" x1="347.5" x2="347.5" y1="139.25" y2="555.75" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#2B2A29" offset="0"/>
+   <stop stop-color="#2B2A29" offset="1"/>
+  </linearGradient>
+  <linearGradient id="j" x1="350" x2="350" y1="184.8" y2="515.2" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#B72323" offset="0"/>
+   <stop stop-color="#E31E24" offset="1"/>
+  </linearGradient>
+ </defs>
+  <circle class="fil0" cx="350" cy="350" r="350"/>
+  <circle class="fil1" cx="350" cy="350" r="348"/>
+  <circle class="fil2" cx="350" cy="350" r="300"/>
+  <circle class="fil3" cx="348" cy="348" r="298"/>
+  <circle class="fil4" cx="350" cy="350" r="295"/>
+  <path class="fil5" d="m350 61c111 0 201 59 201 131 0 73-90 131-201 131s-201-59-201-131c0-73 90-131 201-131z" mask="url(#f)"/>
+</svg>
