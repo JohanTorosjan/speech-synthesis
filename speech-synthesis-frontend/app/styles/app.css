@@ -8,10 +8,12 @@
 
 /* Variables CSS */
 :root {
-  --primary-color: #5e966e;
-  --secondary-color: #bdd1c6;
-  --background-color: #d0dfd8;
-  --red-button:#af3e3e ;
+  --primary-color: #09ef06;
+  --secondary-color: #44f444;
+  --background-color: #b6f9b5;
+  --tertiary-color: #3b255b;
+
+  --red-button:#ff1212 ;
   --surface-color: #fff;
   --text-primary: #181d27;
   --text-secondary: #6c757d;
@@ -69,10 +71,17 @@ body {
   font-weight: bold;
   text-align: center;
  font-family: "Permanent Marker", cursive;    
- 
- 
- color:var(var(--text-primary))
+   position: relative;
+   overflow: hidden;
 
+
+ color:var(var(--text-primary));
+ 
+
+}
+
+h1{
+color: var(--tertiary-color);
 }
 
 .app-header h1 {
@@ -111,7 +120,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+  overflow: hidden;
 }
 
 .app-footer p {
@@ -142,9 +151,13 @@ body {
 
 .shadow {
   box-shadow: var(--shadow);
+
 }
 
+.logo{
+    height: 12dvh;
 
+}
 .modal {
   height: auto;
   width: 80%;

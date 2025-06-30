@@ -89,6 +89,8 @@
   min-height: 7vh;  max-height: 7dvh;
   min-height: 7dvh;
   overflow: hidden; /* masque le dépassement */
+  color: var(--tertiary-color);
+
 }
 
 @media (height <= 550px) {

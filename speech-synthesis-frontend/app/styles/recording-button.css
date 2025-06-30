@@ -94,7 +94,7 @@ border: 1px solid black;
 }
 
 .getsynthese {
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
   align-items: center;
   justify-content: center;
   height: 6vh;
@@ -103,6 +103,8 @@ border: 1px solid black;
   border-radius: 30px;
   padding: 2vh;
     padding: 2dvh;
+    color: var(--tertiary-color);
+
 }
 
 button {
