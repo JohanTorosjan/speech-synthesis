@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  # Frontend EmberJS
+  frontend:
+    build: ./speech-synthesis-frontend
+    ports:
+      - "80:80"  # Port 80 pour la production
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Backend FastAPI
+  backend:
+    build: ./speech-synthesis-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY}
+      - DATABASE_URL=postgresql://speech_user:${DB_PASSWORD}@db:5432/speech_synthesis_db
+    depends_on:
+      - db
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Base de données PostgreSQL
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: speech_synthesis_db
+      POSTGRES_USER: speech_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"  # Accessible pour psql
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./speech-synthesis-backend/app/database/db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
