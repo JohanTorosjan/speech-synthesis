@@ -8,7 +8,7 @@ from pathlib import Path
 
 # Configuration CORS pour Docker
 origins = [
-    "*"
+    "*",
     "http://localhost:3000",  # Frontend Docker
     "http://localhost:4200",  # Développement local Ember
     "https://speech-synthesis-frontend.vercel.app",  # Vercel si nécessaire
@@ -17,8 +17,8 @@ origins = [
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
