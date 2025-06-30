@@ -40,7 +40,6 @@ border: 1px solid black;
   stroke: #000; /* ou white si fond sombre */
   color: black;
   transform: scaleX(-1);
-  padding-right: 30px;
 }
 
 .big-round-button-pause img {
@@ -61,7 +60,6 @@ border: 1px solid black;
   stroke: #000; /* ou white si fond sombre */
   color: black;
   transform: scaleX(-1);
-  padding-right: 30px;
 }
 
 .big-round-button:hover {
