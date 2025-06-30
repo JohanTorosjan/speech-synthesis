@@ -12,7 +12,7 @@ export default class SyntheseRoute extends Route {
   async model(params) {
     try {
       const response = await fetch(
-        `https://speech-synthesis-backend-production.up.railway.app/synthese/${params.id}`,
+        `http://localhost:8000/synthese/${params.id}`,
         {
           method: 'GET',
           headers: {

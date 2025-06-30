@@ -13,7 +13,7 @@ export default class AiAgentsService extends Service {
     this.isLoading = true;
 
     try {
-      const response = await fetch('https://speech-synthesis-backend-production.up.railway.app/analyseDiscussion', {
+      const response = await fetch('http://localhost:8000/analyseDiscussion', {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
