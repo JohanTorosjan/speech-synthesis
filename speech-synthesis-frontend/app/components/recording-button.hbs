@@ -1,0 +1,18 @@
+
+{{#if (eq this.state "start")}}
+  <button class="big-round-button" aria-label="Start" type="button" {{on "click" this.onClick}}>
+    <img src="assets/mini-arrow-start-svgrepo-com-cropped.svg"/>
+  </button>
+{{/if}}
+
+{{#if (eq this.state "pause")}}
+  <button class="big-round-button-pause" aria-label="Pause" type="button" {{on "click" this.onClick}}>
+    <img src="assets/211871_pause_icon.svg"/>
+  </button>
+{{/if}}
+
+{{#if (eq this.state "resume")}}
+  <button class="big-round-button-resume" aria-label="Resume" type="button" {{on "click" this.onClick}}>
+    <img src="assets/mini-arrow-start-svgrepo-com-cropped.svg"/>
+  </button>
+{{/if}}
