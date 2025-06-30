@@ -1,0 +1,21 @@
+# Dossier frontend Ember.js (ajustez le chemin selon votre structure)
+speech-synthesis-frontend/dist/
+speech-synthesis-frontend/declarations/
+speech-synthesis-frontend/node_modules/
+speech-synthesis-frontend/.env*
+speech-synthesis-frontend/.pnp*
+speech-synthesis-frontend/.eslintcache
+speech-synthesis-frontend/coverage/
+speech-synthesis-frontend/npm-debug.log*
+speech-synthesis-frontend/testem.log
+speech-synthesis-frontend/yarn-error.log
+speech-synthesis-frontend/.node_modules.ember-try/
+speech-synthesis-frontend/npm-shrinkwrap.json.ember-try
+speech-synthesis-frontend/package.json.ember-try
+speech-synthesis-frontend/package-lock.json.ember-try
+speech-synthesis-frontend/yarn.lock.ember-try
+speech-synthesis-frontend/DEBUG/
+
+# Autres règles communes
+.DS_Store
+*.log

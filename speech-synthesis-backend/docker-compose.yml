@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+    environment:
+      - MISTRAL_API_KEY="xMpsXmyfrawoSqMqryd1re5Ap3ejdBLO"
+      - DATABASE_URL=postgresql://speech_user:speech_password@db:5432/speech_synthesis_db
+    depends_on:
+      - db
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: speech_synthesis_db
+      POSTGRES_USER: speech_user
+      POSTGRES_PASSWORD: speech_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data    
+volumes:
+  postgres_data:
