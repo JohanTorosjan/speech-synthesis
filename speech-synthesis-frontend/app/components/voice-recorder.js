@@ -14,7 +14,7 @@ export default class VoiceRecorder extends Component {
   get formattedTime() {
     let minutes = Math.floor(this.timeCounter / 60);
     let seconds = this.timeCounter % 60;
-    return `${minutes} : ${seconds.toString().padStart(2, '0')}`;
+    return `${minutes} :${seconds.toString().padStart(2, '0')}`;
   }
 
   get recentTranscription() {

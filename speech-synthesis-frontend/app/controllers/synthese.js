@@ -20,7 +20,7 @@ export default class SyntheseController extends Controller {
     const date = new Date(this.model.created_at);
     const formattedDate = this.formatDateToFrenchString(date);
 
-    return `Cher Madame/Monsieur,\n\nSuite à notre entrevue du ${formattedDate}, veuillez trouver ci-joint la synthèse ainsi que la retranscription.\n------------------\nSynthèse :\n${this.model.analysis_result}\n------------------\nDialogue :\n${this.model.dialogue_structure}
+    return `Cher Madame/Monsieur,\n\nSuite à notre entrevue du ${formattedDate}, veuillez trouver ci-joint la synthèse. \n------------------\nSynthèse :\n${this.model.analysis_result}\n------------------\n Afin d'exercer votre droit à la supression des données, merci d'envoyer un mail à dev5minutespourmontpellier@gmail.com
         `;
   }
   get displayContent() {
