@@ -7,7 +7,7 @@ export default class ModalService extends Service {
   @tracked content = 'content';
   @tracked type = "";
   
-
+  @tracked showLogging = false;
 
   open(title,content,type) {
     this.title = title
@@ -22,4 +22,13 @@ export default class ModalService extends Service {
     this.content = '';
 
   }
+
+  closeLogging(){
+      this.showLogging=false;
+
+}
+  openLogging(){
+    this.showLogging=true;
+  }
+
 }

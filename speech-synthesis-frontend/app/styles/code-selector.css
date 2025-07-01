@@ -1,0 +1,72 @@
+.code-selector {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centre verticalement */
+  align-items: center;     /* centre horizontalement */
+  gap: 2rem;
+  background-color: rgba(0, 0, 0, 0.5); /* assombrir le fond si utilisé seul */
+color: var(--tertiary-color);
+height: 70vh;
+width: 100%;
+}
+
+.code-display {
+  display: flex;
+  gap: 1.5rem;
+  color: var(--tertiary-color);
+
+}
+
+.dot {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background-color: transparent;
+
+}
+
+.dot.filled {
+  background-color: #333;
+  color: var(--tertiary-color);
+    background-color: var(--tertiary-color);
+
+
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: 0.75rem;
+  
+}
+
+.keypad-button {
+
+
+  font-size: 1.75rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  min-height: 10vh;
+}
+
+.keypad-button:hover {
+  background-color: #ddd;
+}
+
+.keypad-button:active {
+  transform: scale(0.95);
+}
+
+.keypad-button.clear {
+  grid-column: span 3;
+  background-color: #ffdddd;
+}
+
+.keypad-button.clear:hover {
+  background-color: #ffcccc;
+}

@@ -5,6 +5,7 @@
 @import url("recording-button.css");
 @import url("informations-form.css");
 @import url("synthese.css");
+@import url("code-selector.css");
 
 /* Variables CSS */
 :root {
@@ -278,4 +279,17 @@ color: var(--tertiary-color);
   .modal-button button {
     width: 50%;
   }
+}
+
+
+.code {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.codeContent{
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.codeModal{
+  background-color: rgba(0, 0, 0, 0.8);
+
 }

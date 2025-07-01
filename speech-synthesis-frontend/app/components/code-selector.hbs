@@ -1,0 +1,25 @@
+<div class="code-selector">
+  <div class="code-display">
+    {{#each this.code as |digit index|}}
+      <span class="dot filled"></span>
+    {{else}}
+      {{#each (range 0 (sub 4 this.code.length)) as |i|}}
+        <span class="dot"></span>
+      {{/each}}
+    {{/each}}
+  </div>
+
+  <div class="keypad">
+    {{#each this.numbers as |number|}}
+                {{#if (eq number 0)}}
+    <button class="keypad-button " {{on "click" this.clearLast}}>⌫</button>
+      <button class="keypad-button" {{on "click" (fn this.addDigit number)}}>{{number}}</button>
+
+                {{else}}
+      <button class="keypad-button" {{on "click" (fn this.addDigit number)}}>{{number}}</button>
+
+                {{/if}}
+
+    {{/each}}
+  </div>
+</div>
