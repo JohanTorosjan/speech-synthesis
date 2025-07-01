@@ -10,4 +10,8 @@ Router.map(function () {
   this.route('synthese');
   this.route('record');
   this.route('informations');
+   this.route('admin', function() {
+    this.route('login');
+    this.route('dashboard');
+  });
 });

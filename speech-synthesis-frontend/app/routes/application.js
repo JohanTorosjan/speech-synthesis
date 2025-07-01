@@ -17,6 +17,10 @@ export default class ApplicationRoute extends Route {
     if(window.location.href.includes("synthese")){
       return
     }
+
+    if(window.location.href.includes("admin")){
+      return
+    }
     this.router.transitionTo('record');
   }
 }
