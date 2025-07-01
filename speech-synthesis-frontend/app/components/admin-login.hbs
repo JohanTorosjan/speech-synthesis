@@ -1,19 +1,18 @@
 {{! app/components/admin-login.hbs }}
 <div class="admin-login">
   <div class="login-card">
-    <h2>Administration</h2>
-    <p>Veuillez saisir le code d'administration pour accéder à l'interface admin.</p>
-    
+    <h1>Veuillez saisir le code administrateur</h1>
+
     <form {{on "submit" this.submitLogin}}>
       <div class="form-group">
-        <label for="admin-code">Code d'administration</label>
+
         <input
           id="admin-code"
           type="password"
           value={{this.adminCode}}
           {{on "input" this.updateCode}}
           {{on "keypress" this.handleKeyPress}}
-          placeholder="Saisissez votre code"
+          placeholder="Code"
           disabled={{this.isLoading}}
           class="form-control {{if this.errorMessage 'error'}}"
         />
@@ -42,8 +41,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f5f5f5;
+    min-height: 100vdh;
+    background-color: var(--primary--color);
+    text-align: center;
   }
 
   .login-card {
@@ -51,8 +51,9 @@
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+    width: 90%;
+
+    align-self: center;
   }
 
   .login-card h2 {
@@ -63,6 +64,9 @@
 
   .form-group {
     margin-bottom: 1rem;
+        margin-top: 1rem;
+    width: 100%;
+    align-self: center;
   }
 
   .form-group label {
@@ -78,6 +82,7 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
+    text-align: center;
   }
 
   .form-control.error {
@@ -91,26 +96,28 @@
   }
 
   .btn {
-    width: 100%;
+    width: 90%;
     padding: 0.75rem;
     border: none;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.2s;
+        align-self: center;
+
   }
 
   .btn-primary {
-    background-color: #007bff;
+    background-color: #229030;
     color: white;
   }
 
   .btn-primary:hover:not(:disabled) {
-    background-color: #0056b3;
+    background-color: #229030;
   }
 
   .btn:disabled {
-    background-color: #6c757d;
+    background-color: #229030;
     cursor: not-allowed;
   }
 </style>
