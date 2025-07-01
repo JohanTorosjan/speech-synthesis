@@ -65,8 +65,20 @@ async def verify_admin_token(token: str):
     except jwt.JWTError:
         raise HTTPException(status_code=401, detail="Token invalide")
 
+# Dépendance pour extraire le token du header Authorization
+from fastapi import Header
+
+def get_admin_token(authorization: str = Header(None)):
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Token d'autorisation manquant")
+    
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Format du token invalide")
+    
+    return authorization[7:]  # Enlever "Bearer "
+
 # Middleware de protection pour les routes admin
-def require_admin_auth(token: str):
+def require_admin_auth(token: str = Depends(get_admin_token)):
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
         if not payload.get("admin"):
@@ -79,5 +91,5 @@ def require_admin_auth(token: str):
 
 # Exemple de route protégée
 @router.get("/admin/dashboard")
-async def admin_dashboard(token: str = Depends(require_admin_auth)):
-    return {"message": "Bienvenue dans l'administration", "data": "données sensibles"}
+async def admin_dashboard(payload: dict = Depends(require_admin_auth)):
+    return {"message": "Bienvenue dans l'administration", "data": "données sensibles", "admin_info": payload}
