@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import sql
+from app.routes import auth
 
 from sqlalchemy import text
 from sqlalchemy.orm import Session
@@ -24,3 +25,4 @@ app.add_middleware(
 )
 
 app.include_router(sql.router)
+app.include_router(auth.router)

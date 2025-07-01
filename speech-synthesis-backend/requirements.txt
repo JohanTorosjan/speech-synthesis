@@ -7,3 +7,4 @@ langchain_mistralai
 psycopg2-binary
 sqlalchemy
 alembic
+PyJWT==2.8.0
