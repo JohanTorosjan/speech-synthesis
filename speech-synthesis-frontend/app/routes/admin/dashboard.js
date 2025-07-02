@@ -5,6 +5,13 @@ export default class AdminDashboardRoute extends Route {
   @service authAdmin;
   @service router;
 
+    queryParams = {
+    page: {
+      refreshModel: true,
+    },
+  };
+
+
   beforeModel() {
     // Vérifier l'authentification
     if (!this.authAdmin.isAuthenticated) {
@@ -13,14 +20,23 @@ export default class AdminDashboardRoute extends Route {
     }
   }
 
-  async model() {
+  async model(params) {
+    let offset = 10
+
     try {
+        if(params.page){
+            offset = 10*params.page 
+        }
+        else{
+            offset = 0
+        }
       // Exemple d'appel API authentifié
-      const response = await this.authAdmin.authenticatedFetch('http://localhost:8000/admin/dashboard');
+      const response = await this.authAdmin.authenticatedFetch(`http://localhost:8000/admin/synthesis?limit=10&offset=${offset}&sort=-created_at`);
       
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
+      
       
       return await response.json();
     } catch (error) {

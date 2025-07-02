@@ -232,3 +232,53 @@ def perform_get_synthese(synthese_id: int):
     except Exception as e:
         logger.error(f"Erreur lors de la récupération de la synthèse {synthese_id}: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+    
+def perform_get_all_syntheses(sort,limit,offset,sort_column,order_direction):
+    try:
+
+
+        # Protection simple contre SQL Injection (whitelist de colonnes autorisées)
+        allowed_columns = {
+            "id", "created_at", "updated_at", "citizen_firstname", "citizen_lastname"
+        }
+        if sort_column not in allowed_columns:
+            raise HTTPException(status_code=400, detail="Colonne de tri invalide")
+
+        with engine.connect() as connection:
+            query = text(f"""
+                SELECT id, original_text, analysis_result, dialogue_structure, tasks_completed, 
+                       citizen_firstname, citizen_lastname, citizen_email, citizen_dob, 
+                       created_at, updated_at
+                FROM synthesis
+                ORDER BY {sort_column} {order_direction}
+                LIMIT :limit OFFSET :offset
+            """)
+            result = connection.execute(query, {"limit": limit, "offset": offset})
+            rows = result.fetchall()
+
+            data = []
+            for row in rows:
+                data.append({
+                    "id": row.id,
+                    "original_text": row.original_text,
+                    "analysis_result": row.analysis_result,
+                    "dialogue_structure": row.dialogue_structure,
+                    "tasks_completed": row.tasks_completed,
+                    "citizen_firstname": row.citizen_firstname,
+                    "citizen_lastname": row.citizen_lastname,
+                    "citizen_email": row.citizen_email,
+                    "citizen_dob": row.citizen_dob,
+                    "created_at": row.created_at,
+                    "updated_at": row.updated_at
+                })
+
+            return {
+                "message": "Synthèses récupérées avec succès",
+                "count": len(data),
+                "limit": limit,
+                "offset": offset,
+                "sort": sort,
+                "data": data
+            }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

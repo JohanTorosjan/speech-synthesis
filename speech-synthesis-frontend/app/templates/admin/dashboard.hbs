@@ -1,17 +1,158 @@
 <div class="admin-dashboard">
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
+  <div class="table-container">
+    <div class="table-header">
+      <h2 class="table-title"></h2>
+      <div class="table-actions">
+        <button class="btn btn-secondary" {{on "click" this.exportData}}>
+          <i class="icon-download"></i>
+          Exporter
+        </button>
+      </div>
+    </div>
 
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
-<h1>DASHBOARD ADMIN</h1>
 
+<h1>
+    {{ @model.count}}
+</h1>
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            {{#if this.showCheckboxes}}
+              <th class="checkbox-column">
+                <Input 
+                  @type="checkbox" 
+                  @checked={{this.allSelected}} 
+                  {{on "change" this.toggleAll}}
+                />
+              </th>
+            {{/if}}
+
+            {{#each this.columns as |column|}}
+              <th class="{{column.class}}" {{on "click" (fn this.sortBy column.key)}}>
+                {{column.label}}
+                {{#if (eq this.sortColumn column.key)}}
+                  <i class="sort-icon {{if this.sortAsc 'icon-arrow-up' 'icon-arrow-down'}}"></i>
+                {{else}}
+                  <i class="sort-icon icon-sort"></i>
+                {{/if}}
+              </th>
+            {{/each}}
+
+            {{#if this.showActions}}
+              <th class="actions-column">Actions</th>
+            {{/if}}
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#if this.isLoading}}
+            <tr class="loading-row">
+              <td colspan={{this.totalColumns}} class="loading-cell">
+                <div class="loading-spinner"></div>
+                <span>Chargement...</span>
+              </td>
+            </tr>
+          {{else if this.hasData}}
+            {{#each this.paginatedData as |item index|}}
+              <tr class="data-row {{if item.isSelected 'selected'}}" {{on "click" (fn this.selectRow item)}}>
+                {{#if this.showCheckboxes}}
+                  <td class="checkbox-cell">
+                    <Input 
+                      @type="checkbox" 
+                      @checked={{item.isSelected}} 
+                      {{on "change" (fn this.toggleItem item)}}
+                    />
+                  </td>
+                {{/if}}
+
+                {{#each this.columns as |column|}}
+                  <td class="{{column.class}}">
+                    {{#if column.isCustom}}
+                      {{{get item column.key}}}
+                    {{else if column.isDate}}
+                      {{get item column.key}}
+                    {{else if column.isStatus}}
+                      <span class="status-badge status-{{get item column.key}}">
+                        {{get item column.key}}
+                      </span>
+                    {{else}}
+                      {{get item column.key}}
+                    {{/if}}
+                  </td>
+                {{/each}}
+
+                {{#if this.showActions}}
+                  <td class="actions-cell">
+                    <div class="action-buttons">
+                      <button class="btn-icon btn-edit" {{on "click" (fn this.editItem item)}} title="Modifier">
+                        <i class="icon-edit"></i>
+                      </button>
+                      <button class="btn-icon btn-view" {{on "click" (fn this.viewItem item)}} title="Voir">
+                        <i class="icon-eye"></i>
+                      </button>
+                      <button class="btn-icon btn-delete" {{on "click" (fn this.deleteItem item)}} title="Supprimer">
+                        <i class="icon-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                {{/if}}
+              </tr>
+            {{/each}}
+          {{else}}
+            <tr class="empty-row">
+              <td colspan={{this.totalColumns}} class="empty-cell">
+                <div class="empty-state">
+                  <i class="icon-inbox"></i>
+                  <h3>Aucune donnée</h3>
+                  <p>{{this.emptyMessage}}</p>
+                </div>
+              </td>
+            </tr>
+          {{/if}}
+        </tbody>
+      </table>
+    </div>
+
+    {{#if this.showPagination}}
+      <div class="table-pagination">
+        <div class="pagination-info">
+          Affichage de {{this.startIndex}} à {{this.endIndex}} sur {{this.totalItems}} éléments
+        </div>
+
+        <div class="pagination-controls">
+          <button 
+            class="btn btn-pagination"
+            {{on "click" this.previousPage}}
+          >
+            <i class="icon-chevron-left"></i>
+            Précédent
+          </button>
+
+          <div class="page-numbers">
+            {{#each this.pageNumbers as |page|}}
+              {{#if page.isDots}}
+                <span class="page-dots">...</span>
+              {{else}}
+                <button 
+                  class="btn btn-page {{if page.isCurrent 'active'}}"
+                  {{on "click" (fn this.goToPage page.number)}}
+                >
+                  {{page.number}}
+                </button>
+              {{/if}}
+            {{/each}}
+          </div>
+
+          <button 
+            class="btn btn-pagination" 
+            {{on "click" this.nextPage}}
+          >
+            Suivant
+            <i class="icon-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    {{/if}}
+  </div>
 </div>

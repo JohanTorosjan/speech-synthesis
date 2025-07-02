@@ -144,3 +144,11 @@ async def get_synthese(synthese_id: int):
        return perform_get_synthese(synthese_id=synthese_id)
     except HTTPException as e:
         raise e
+    
+
+@router.get("/synthese/{synthese_id}")
+async def get_synthese(synthese_id: int):
+    try:
+       return perform_get_synthese(synthese_id=synthese_id)
+    except HTTPException as e:
+        raise e
