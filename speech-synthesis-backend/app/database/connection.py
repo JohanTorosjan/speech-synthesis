@@ -292,3 +292,68 @@ def perform_get_all_syntheses(start_date,sort,offset,sort_column,order_direction
             }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+def perform_get_syntheses_by_date_range(start_date, end_date, sort, offset, sort_column, order_direction):
+    where_clauses = []
+    params = {"offset": offset}
+    
+    if start_date:
+        where_clauses.append("DATE(created_at) >= :start_date")
+        params["start_date"] = datetime.combine(start_date, datetime.min.time())
+    
+    if end_date:
+        where_clauses.append("DATE(created_at) <= :end_date")
+        params["end_date"] = datetime.combine(end_date, datetime.max.time())
+    
+    where_sql = ""
+    if where_clauses:
+        where_sql = "WHERE " + " AND ".join(where_clauses)
+  
+    try:
+        # Protection simple contre SQL Injection (whitelist de colonnes autorisées)
+        allowed_columns = {
+            "id", "created_at", "updated_at", "citizen_firstname", "citizen_lastname"
+        }
+        if sort_column not in allowed_columns:
+            raise HTTPException(status_code=400, detail="Colonne de tri invalide")
+
+        with engine.connect() as connection:
+            query = text(f"""
+                SELECT id, original_text, analysis_result, dialogue_structure, tasks_completed, 
+                       citizen_firstname, citizen_lastname, citizen_email, citizen_dob, 
+                       created_at, updated_at
+                FROM synthesis
+                {where_sql}
+                ORDER BY {sort_column} {order_direction}
+                OFFSET :offset
+            """)
+            result = connection.execute(query, params)
+            rows = result.fetchall()
+
+            data = []
+            for row in rows:
+                data.append({
+                    "id": row.id,
+                    "original_text": row.original_text,
+                    "analysis_result": row.analysis_result,
+                    "dialogue_structure": row.dialogue_structure,
+                    "tasks_completed": row.tasks_completed,
+                    "citizen_firstname": row.citizen_firstname,
+                    "citizen_lastname": row.citizen_lastname,
+                    "citizen_email": row.citizen_email,
+                    "citizen_dob": row.citizen_dob,
+                    "created_at": row.created_at,
+                    "updated_at": row.updated_at
+                })
+
+            return {
+                "message": "Synthèses récupérées avec succès",
+                "count": len(data),
+                "offset": offset,
+                "sort": sort,
+                "start_date": start_date.isoformat() if start_date else None,
+                "end_date": end_date.isoformat() if end_date else None,
+                "data": data
+            }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

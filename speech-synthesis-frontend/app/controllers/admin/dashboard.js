@@ -432,7 +432,7 @@ formatDate(date) {
 
   @action
   exportData() {
-  this.modal.openExport()
+  this.modal.openExport(this.date)
   }
 
 

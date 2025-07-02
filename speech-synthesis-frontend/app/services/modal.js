@@ -6,7 +6,7 @@ export default class ModalService extends Service {
   @tracked title = 'title';
   @tracked content = 'content';
   @tracked type = "";
-  
+  @tracked exportDate;
   @tracked showLogging = false;
   @tracked showExport = false;
 
@@ -39,7 +39,9 @@ export default class ModalService extends Service {
       this.showExport=false;
 
 }
-  openExport(){
+
+  openExport(exportDate){
+    this.exportDate = exportDate
     this.showExport=true;
   }
 }
