@@ -233,9 +233,19 @@ def perform_get_synthese(synthese_id: int):
         logger.error(f"Erreur lors de la récupération de la synthèse {synthese_id}: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
     
-def perform_get_all_syntheses(sort,limit,offset,sort_column,order_direction):
-    try:
+def perform_get_all_syntheses(start_date,sort,offset,sort_column,order_direction):
 
+    where_clauses = []
+    params = {"offset": offset}
+    if start_date:
+        where_clauses.append("DATE(created_at) = :start_date")
+        # Assure toi que start_date soit en datetime UTC min
+        params["start_date"] = datetime.combine(start_date, datetime.min.time())
+    where_sql = ""
+    if where_clauses:
+        where_sql = "WHERE " + " AND ".join(where_clauses)
+  
+    try:
 
         # Protection simple contre SQL Injection (whitelist de colonnes autorisées)
         allowed_columns = {
@@ -250,10 +260,11 @@ def perform_get_all_syntheses(sort,limit,offset,sort_column,order_direction):
                        citizen_firstname, citizen_lastname, citizen_email, citizen_dob, 
                        created_at, updated_at
                 FROM synthesis
+                {where_sql}
                 ORDER BY {sort_column} {order_direction}
-                LIMIT :limit OFFSET :offset
+                OFFSET :offset
             """)
-            result = connection.execute(query, {"limit": limit, "offset": offset})
+            result = connection.execute(query, params)
             rows = result.fetchall()
 
             data = []
@@ -275,7 +286,6 @@ def perform_get_all_syntheses(sort,limit,offset,sort_column,order_direction):
             return {
                 "message": "Synthèses récupérées avec succès",
                 "count": len(data),
-                "limit": limit,
                 "offset": offset,
                 "sort": sort,
                 "data": data

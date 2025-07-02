@@ -432,8 +432,7 @@ formatDate(date) {
 
   @action
   exportData() {
-    console.log('Exporter les données');
-    alert('Fonctionnalité d\'export à implémenter');
+  this.modal.openExport()
   }
 
 
@@ -445,5 +444,8 @@ const url = this.router.urlFor('synthese', {
 window.open(url, '_blank');
 
   }
+
+
+  
 }
 

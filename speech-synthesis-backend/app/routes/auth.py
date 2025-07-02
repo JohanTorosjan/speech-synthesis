@@ -6,6 +6,9 @@ import os
 from datetime import datetime, timedelta
 import jwt
 from app.database.connection import perform_get_all_syntheses
+from datetime import datetime, date
+from typing import Optional
+
 
 router = APIRouter()
 
@@ -99,15 +102,16 @@ async def admin_dashboard(payload: dict = Depends(require_admin_auth)):
 @router.get("/admin/synthesis", summary="Récupérer la table synthesis avec pagination", tags=["Admin"])
 def get_all_syntheses(
     payload: dict = Depends(require_admin_auth),
-    limit: int = Query(50, le=50, description="Nombre maximum de résultats (max 50)"),
     offset: int = Query(0, ge=0, description="Offset pour la pagination"),
-    sort: str = Query("id", description="Colonne de tri, ex: id ou -id pour desc")
+    sort: str = Query("id", description="Colonne de tri, ex: id ou -id pour desc"),
+    start_date: Optional[date] = Query(None, description="Date de début au format YYYY-MM-DD"),
+
 ):
     try:
         print("ici")
         sort_column = sort.lstrip("-")
         order_direction = "DESC" if sort.startswith("-") else "ASC"
-        result = perform_get_all_syntheses(sort,limit,offset,sort_column,order_direction)
+        result = perform_get_all_syntheses(start_date,sort,offset,sort_column,order_direction)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
