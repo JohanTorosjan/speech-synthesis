@@ -11,6 +11,13 @@
 
 }
 
+.chevron{
+  height: 1rem;
+}
+
+.right{
+  transform: scale(-1);
+}
 
 .data-row{
   border-bottom: 0.1rem solid black
@@ -21,6 +28,9 @@
 .date-selector{
   display: flex;
   flex-direction:row;
+ position: absolute;
+    left: 50%;
+        transform: translateX(-50%);
 
 }
 
@@ -51,6 +61,8 @@ thead{
   padding: 1rem 1.5rem;
   background-color: #f8f9fa;
   border-bottom: 1px solid #dee2e6;
+      position: relative;
+
 }
 
 .table-title {
@@ -188,8 +200,14 @@ thead{
   border-radius: 0.25rem;
   cursor: pointer;
   transition: all 0.15s ease-in-out;
+
 }
 
+
+.btn-secondary{
+      background-color:var(--tertiary-color);
+  color:white
+}
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -226,7 +244,7 @@ thead{
 .btn-outline-secondary {
   color: #6c757d;
   border-color: #6c757d;
-  background-color: transparent;
+  background-color:var(--tertiary-color)
 }
 
 .btn-outline-secondary:hover:not(:disabled) {
@@ -270,6 +288,9 @@ thead{
     align-items: stretch;
   }
   
+  .date-selector{
+    position: relative;
+  }
   .search-input {
     min-width: auto;
     width: 100%;
