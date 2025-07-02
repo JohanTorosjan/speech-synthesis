@@ -11,21 +11,45 @@ export default class CodeSelector extends Component {
   numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
   @action
-  addDigit(number) {
+  async addDigit(number) {
     if (this.code.length < 4) {
       this.code = [...this.code, number];
       if (this.code.length === 4) {
         // Handle code entered
         console.log('Code entered:', this.code.join(''));
-        if(this.code.join('')==1379){
+
+
+        try{
+const response = await fetch('http://localhost:8000/auth/militant', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          code: this.code.join('')
+        })
+      });
+            const data = await response.json();
+
+        if(data.success){
             
             this.modal.closeLogging()
-            this.auth.loggin()
+            this.auth.loggin(data)
+            
         }
         else{
-            this.wrongCode=true;
+          
+          this.wrongCode=true;
             this.code = []
         }
+
+        }
+        catch(error){
+          debugger
+                      this.wrongCode=true;
+            this.code = []
+        }
+       
         // You may trigger an action to close modal or validate here
       }
     }

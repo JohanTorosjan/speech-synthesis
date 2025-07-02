@@ -53,7 +53,6 @@ class MilitantUpdateStatusRequest(BaseModel):
     actif: bool
 # Modèles pour l'authentification militant
 class MilitantAuthRequest(BaseModel):
-    nom: str
     code: str
 
 class MilitantAuthResponse(BaseModel):
@@ -92,8 +91,9 @@ async def authenticate_militant(auth_request: MilitantAuthRequest):
     """
     try:
         # Vérification des identifiants en base de données
-        militant_info = verify_militant_credentials(auth_request.nom, auth_request.code)
-        
+
+        militant_info = verify_militant_credentials(auth_request.code)
+
         if not militant_info:
             raise HTTPException(
                 status_code=401,

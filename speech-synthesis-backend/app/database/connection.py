@@ -367,21 +367,21 @@ def perform_get_syntheses_by_date_range(start_date, end_date, sort, offset, sort
 
 # Fonctions à ajouter dans connection.py
 
-def verify_militant_credentials(nom: str, code: str):
+def verify_militant_credentials( code: str):
     """
     Vérifie les identifiants d'un militant en base de données
     Retourne les informations du militant si les identifiants sont corrects, None sinon
     """
     try:
+
         with engine.connect() as connection:
             result = connection.execute(
                 text("""
                     SELECT id, nom, prenom, email, code, actif, created_at, updated_at
                     FROM militants 
-                    WHERE nom = :nom AND code = :code AND actif = true
+                    WHERE code = :code AND actif = true
                 """),
                 {
-                    "nom": nom,
                     "code": code
                 }
             )
@@ -389,7 +389,7 @@ def verify_militant_credentials(nom: str, code: str):
             row = result.fetchone()
             
             if row is None:
-                logger.info(f"Tentative de connexion échouée pour le militant: {nom}")
+                logger.info(f"Tentative de connexion échouée pour le militant: ")
                 return None
             
             militant_info = {
@@ -403,7 +403,7 @@ def verify_militant_credentials(nom: str, code: str):
                 "updated_at": row[7]
             }
             
-            logger.info(f"Authentification réussie pour le militant: {nom} (ID: {row[0]})")
+            logger.info(f"Authentification réussie pour le militant:  (ID: {row[0]})")
             return militant_info
             
     except SQLAlchemyError as e:
