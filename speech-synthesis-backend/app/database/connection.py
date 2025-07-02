@@ -96,17 +96,18 @@ def execute_query(query: str):
         logger.error(f"❌ Erreur lors de l'exécution de la requête: {e}")
         raise e
     
-def save_synthese(agents_result: CrewResponse):
+def save_synthese(agents_result: CrewResponse,militant_id):
     try:
         with engine.connect() as connection:
             result = connection.execute(
-                text("INSERT INTO synthesis (original_text, analysis_result, dialogue_structure, tasks_completed, created_at) VALUES (:orig, :analysis, :dialogue, :task, :date) RETURNING id"),
+                text("INSERT INTO synthesis (original_text, analysis_result, dialogue_structure, tasks_completed, created_at, militants_id) VALUES (:orig, :analysis, :dialogue, :task, :date, :militants_id) RETURNING id"),
                 {
                     "orig": agents_result.original_text,
                     "analysis": json.dumps(agents_result.analysis_result),
                     "dialogue": json.dumps(agents_result.dialogue_structure),
                     "task": agents_result.tasks_completed,
-                    "date": datetime.now()
+                    "date": datetime.now(),
+                    "militants_id": militant_id
                 }
             )
             connection.commit()
@@ -357,3 +358,209 @@ def perform_get_syntheses_by_date_range(start_date, end_date, sort, offset, sort
             }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
+
+
+
+# Fonctions à ajouter dans connection.py
+
+def verify_militant_credentials(nom: str, code: str):
+    """
+    Vérifie les identifiants d'un militant en base de données
+    Retourne les informations du militant si les identifiants sont corrects, None sinon
+    """
+    try:
+        with engine.connect() as connection:
+            result = connection.execute(
+                text("""
+                    SELECT id, nom, prenom, email, code, actif, created_at, updated_at
+                    FROM militants 
+                    WHERE nom = :nom AND code = :code AND actif = true
+                """),
+                {
+                    "nom": nom,
+                    "code": code
+                }
+            )
+            
+            row = result.fetchone()
+            
+            if row is None:
+                logger.info(f"Tentative de connexion échouée pour le militant: {nom}")
+                return None
+            
+            militant_info = {
+                "id": row[0],
+                "nom": row[1],
+                "prenom": row[2],
+                "email": row[3],
+                "code": row[4],
+                "actif": row[5],
+                "created_at": row[6],
+                "updated_at": row[7]
+            }
+            
+            logger.info(f"Authentification réussie pour le militant: {nom} (ID: {row[0]})")
+            return militant_info
+            
+    except SQLAlchemyError as e:
+        logger.error(f"Erreur lors de la vérification des identifiants militant: {e}")
+        return None
+    except Exception as e:
+        logger.error(f"Erreur inattendue lors de la vérification militant: {e}")
+        return None
+
+
+def get_militant_by_id(militant_id: int):
+    """
+    Récupère les informations d'un militant par son ID
+    """
+    try:
+        with engine.connect() as connection:
+            result = connection.execute(
+                text("""
+                    SELECT id, nom, prenom, email, code, actif, created_at, updated_at
+                    FROM militants 
+                    WHERE id = :militant_id AND actif = true
+                """),
+                {"militant_id": militant_id}
+            )
+            
+            row = result.fetchone()
+            
+            if row is None:
+                return None
+            
+            return {
+                "id": row[0],
+                "nom": row[1],
+                "prenom": row[2],
+                "email": row[3],
+                "code": row[4],
+                "actif": row[5],
+                "created_at": row[6],
+                "updated_at": row[7]
+            }
+            
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération du militant {militant_id}: {e}")
+        return None
+
+
+def create_militant(nom: str, prenom: str, email: str, code: str):
+    """
+    Crée un nouveau militant en base de données
+    """
+    try:
+        with engine.begin() as connection:
+            result = connection.execute(
+                text("""
+                    INSERT INTO militants (nom, prenom, email, code, actif, created_at, updated_at)
+                    VALUES (:nom, :prenom, :email, :code, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    RETURNING id
+                """),
+                {
+                    "nom": nom,
+                    "prenom": prenom,
+                    "email": email,
+                    "code": code
+                }
+            )
+            
+            militant_id = result.fetchone()[0]
+            logger.info(f"Nouveau militant créé: {nom} {prenom} (ID: {militant_id})")
+            
+            return {
+                "success": True,
+                "militant_id": militant_id,
+                "message": "Militant créé avec succès"
+            }
+            
+    except SQLAlchemyError as e:
+        logger.error(f"Erreur lors de la création du militant: {e}")
+        if "unique constraint" in str(e).lower():
+            raise HTTPException(status_code=400, detail="Un militant avec ce nom/email existe déjà")
+        raise HTTPException(status_code=500, detail="Erreur de base de données")
+    except Exception as e:
+        logger.error(f"Erreur inattendue lors de la création du militant: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
+
+def update_militant_status(militant_id: int, actif: bool):
+    """
+    Met à jour le statut actif/inactif d'un militant
+    """
+    try:
+        with engine.begin() as connection:
+            result = connection.execute(
+                text("""
+                    UPDATE militants 
+                    SET actif = :actif, updated_at = CURRENT_TIMESTAMP
+                    WHERE id = :militant_id
+                """),
+                {
+                    "actif": actif,
+                    "militant_id": militant_id
+                }
+            )
+            
+            if result.rowcount == 0:
+                raise HTTPException(status_code=404, detail="Militant non trouvé")
+            
+            status_text = "activé" if actif else "désactivé"
+            logger.info(f"Militant {militant_id} {status_text}")
+            
+            return {
+                "success": True,
+                "message": f"Militant {status_text} avec succès",
+                "militant_id": militant_id
+            }
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Erreur lors de la mise à jour du statut militant: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
+
+def get_all_militants(actif_only: bool = True):
+    """
+    Récupère la liste de tous les militants
+    """
+    try:
+        where_clause = "WHERE actif = true" if actif_only else ""
+        
+        with engine.connect() as connection:
+            result = connection.execute(
+                text(f"""
+                    SELECT id, nom, prenom, email, actif, created_at, updated_at
+                    FROM militants 
+                    {where_clause}
+                    ORDER BY nom, prenom
+                """)
+            )
+            
+            militants = []
+            for row in result:
+                militants.append({
+                    "id": row[0],
+                    "nom": row[1],
+                    "prenom": row[2],
+                    "email": row[3],
+                    "actif": row[4],
+                    "created_at": row[5],
+                    "updated_at": row[6]
+                })
+            
+            return {
+                "success": True,
+                "count": len(militants),
+                "militants": militants
+            }
+            
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération des militants: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
