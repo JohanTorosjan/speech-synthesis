@@ -1,12 +1,47 @@
 /* styles/components/data-table.css */
 .admin-dashboard{
-  
+    width: 80vw;
+    height: 80vh;
 }
+
+.synthese-link{
+  font-size: 0.7rem;
+  color: blue;
+  font-style: italic;
+
+}
+
+
+.data-row{
+  border-bottom: 0.1rem solid black
+}
+.each{
+    max-width: 4vw;
+}
+.date-selector{
+  display: flex;
+  flex-direction:row;
+
+}
+
+
+td{
+  text-align: center;
+  vertical-align: center;
+}
+
+thead{
+    border-bottom: 0.1rem solid black
+
+}
+
 .table-container {
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  height: 79vh;
+  border: 1px solid black;
 }
 
 .table-header {
@@ -47,6 +82,7 @@
 
 .table-wrapper {
   overflow-x: auto;
+  padding: 1rem;
 }
 
 .data-table {

@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class DashboardController extends Controller {
   // Propriétés trackées
@@ -13,6 +14,9 @@ export default class DashboardController extends Controller {
   @tracked itemsPerPage = 10;
   @tracked isLoading = false;
   @tracked allSelected = false;
+  @service authAdmin
+  @service router
+@service modal 
 
   // Configuration du tableau
   tableTitle = 'Gestion des Utilisateurs';
@@ -28,14 +32,37 @@ export default class DashboardController extends Controller {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = String(date.getFullYear()).slice(-2);
     const hour = String(date.getHours()).padStart(2, '0');
-    return `${day}/${month}/${year} - ${hour} h`;
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return ` ${hour} h  ${minutes}`;
+}
+
+
+formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${day}/${month}/${year}`;
+}
+
+
+@tracked date;
+
+get dateSelected(){
+  let date = new Date()
+  const offset = Number(this.date) || 0; // Convertit en nombre, fallback à 0 si NaN
+   date.setDate(date.getDate() + offset);
+   return  this.formatDate(date)
+
+    
+
 }
 
   // Définition des colonnes
   columns = [
         {
       key: 'created_at',
-      label: 'Date de création',
+      label: 'Heure',
       class: 'date-column',
       isDate: true
     },
@@ -53,33 +80,53 @@ export default class DashboardController extends Controller {
     },
 
     {
-      key: 'Synthèse',
+      key: 'synthese',
       label: 'Synthèse',
       class: 'synthese',
-      isDate: false
+      isCustom: true
     }
   ];
 
-  // Catégories pour le filtre
-  categories = [
-    { id: 'admin', name: 'Administrateurs' },
-    { id: 'user', name: 'Utilisateurs' },
-    { id: 'moderator', name: 'Modérateurs' },
-    { id: 'guest', name: 'Invités' }
-  ];
+
+
+  @tracked datas = null
+
+
+@computed('datas')
 
 get rawData(){
-  
+
+  if(this.datas===null){
   return this.model.data.map((data)=>{
-    
-    debugger
+    const name = data.citizen_firstname!==null?data.citizen_firstname:''
+const lastName = data.citizen_lastname!==null?data.citizen_lastname:''
+
+
     return{
       created_at:this.formatDateToFrenchShort(data.created_at),
-      name:`${data?.citizen_firstname} ${data?.citizen_lastname}`
+      name:`${name} ${lastName}`,
+      email:data?.citizen_email,
+      synthese:data.id
   }
 }
 )
-  return []
+  }
+
+  else{
+    return this.datas.data.map((data)=>{
+const name = data.citizen_firstname!==null?data.citizen_firstname:''
+const lastName = data.citizen_lastname!==null?data.citizen_lastname:''
+
+    return{
+      created_at:this.formatDateToFrenchShort(data.created_at),
+      name:`${name} ${lastName}`,
+      email:data?.citizen_email,
+            synthese:data.id
+
+  }
+}
+)
+  }
 }
   // Computed properties
   @computed('rawData', 'searchTerm', 'selectedCategory')
@@ -266,19 +313,79 @@ get rawData(){
   }
 
   @action
-  previousPage() {
-    if (this.hasPrevious) {
-      this.currentPage--;
-    }
+ async previousPage() {
+  let newdate = Number(this.date) || 0;
+  newdate = newdate - 1;
+  
+  // Mettre à jour le paramètre
+  this.set('date', newdate);
+  
+  // Recharger les données manuellement
+  try {
+    const newModel = await this.loadData(newdate);
+    this.datas = newModel
+    //this.set('model', newModel);
+  } catch (error) {
+    console.error('Erreur lors du rechargement:', error);
+  }
+  
+  if (this.hasNext) {
+    this.currentPage++;
+  }
   }
 
-  @action
-  nextPage() {
-    if (this.hasNext) {
-      this.currentPage++;
-    }
+@action
+async nextPage() {
+  let newdate = Number(this.date) || 0;
+  newdate = newdate + 1;
+  
+  // Mettre à jour le paramètre
+  this.set('date', newdate);
+  
+  // Recharger les données manuellement
+  try {
+    const newModel = await this.loadData(newdate);
+    this.datas = newModel
+    //this.set('model', newModel);
+  } catch (error) {
+    console.error('Erreur lors du rechargement:', error);
   }
+  
+  if (this.hasNext) {
+    this.currentPage++;
+  }
+}
 
+async loadData(dateOffset) {
+  let date = new Date();
+  const offset = Number(dateOffset) || 0;
+  date.setDate(date.getDate() + offset);
+  
+  const response = await this.authAdmin.authenticatedFetch(
+    `http://localhost:8000/admin/synthesis?offset=0&sort=-created_at&start_date=${this.formatDate(date)}`
+  );
+  
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  }
+  
+  return await response.json();
+}
+
+formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+
+
+
+
+
+
+  
   @action
   goToPage(page) {
     this.currentPage = page;
@@ -328,4 +435,15 @@ get rawData(){
     console.log('Exporter les données');
     alert('Fonctionnalité d\'export à implémenter');
   }
+
+
+  @action
+  openSynthese(item){
+const url = this.router.urlFor('synthese', {
+  queryParams: { id: item.synthese },
+});
+window.open(url, '_blank');
+
+  }
 }
+
