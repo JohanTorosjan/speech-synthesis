@@ -7,15 +7,18 @@ export default class ModalDialog extends Component {
 @service aiAgents
 @service audioRecorder
 @service router
+
 @action
-
-
-deleteSynthese(){
+async deleteSynthese(){
     this.aiAgents.reset()
     this.audioRecorder.reset()
     this.modal.close()
+    const currentURL = window.location.href;
+ if (currentURL.includes("record")) {
+    window.location.reload();
+    }
 
-window.location.href = '/record';
+    await this.router.transitionTo('record');
 
 }
 

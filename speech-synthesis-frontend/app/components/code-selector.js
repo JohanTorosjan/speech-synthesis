@@ -20,28 +20,39 @@ export default class CodeSelector extends Component {
 
 
         try{
-const response = await fetch('http://localhost:8000/auth/militant', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          code: this.code.join('')
-        })
-      });
-            const data = await response.json();
 
-        if(data.success){
-            
-            this.modal.closeLogging()
-            this.auth.loggin(data)
-            
-        }
-        else{
+         const result = await this.auth.authenticateWithCode(this.code.join(''))
+         if (result.success){
+          this.modal.closeLogging()
+         }
+          else{
           
           this.wrongCode=true;
             this.code = []
         }
+
+// const response = await fetch('http://localhost:8000/auth/militant', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           code: this.code.join('')
+//         })
+//       });
+//             const data = await response.json();
+
+//         if(data.success){
+            
+//             this.modal.closeLogging()
+//             this.auth.loggin(data)
+            
+//         }
+//         else{
+          
+//           this.wrongCode=true;
+//             this.code = []
+//         }
 
         }
         catch(error){

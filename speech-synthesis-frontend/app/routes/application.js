@@ -4,23 +4,34 @@ import { inject as service } from '@ember/service';
 export default class ApplicationRoute extends Route {
   @service router;
   @service modal;
-@service auth;
-  beforeModel() {
-    //         this.router.transitionTo('synthese', {
-    //   queryParams: { id: 1 },
-    // });
+  @service auth;
 
-    if(!this.auth.isLogged){
-      this.modal.openLogging()
+  async beforeModel() {
+    const currentURL = window.location.href;
+    
+    if (currentURL.includes("admin")) {
+      return;
     }
 
-    if(window.location.href.includes("synthese")){
-      return
+    try {
+        const response = await this.auth.checkToken();
+        console.log(response);
+        
+        if (response === false) {
+            this.modal.openLogging();
+            return; // Arrêter ici si pas authentifié
+        }
+    } catch (error) {
+        console.error('Erreur auth:', error);
+        this.modal.openLogging();
+        return;
     }
 
-    if(window.location.href.includes("admin")){
-      return
+    if (currentURL.includes("synthese")) {
+      return;
     }
-    this.router.transitionTo('record');
+
+    // Utiliser replaceWith pour éviter l'historique
+    this.router.replaceWith('record');
   }
 }

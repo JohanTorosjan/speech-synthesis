@@ -1,4 +1,4 @@
-import Service from '@ember/service';
+import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class AiAgentsService extends Service {
@@ -8,12 +8,12 @@ export default class AiAgentsService extends Service {
   @tracked dialogueStructure;
   @tracked error = false;
   @tracked id = 0;
-
+@service auth
   async getSynthese(discussionText) {
     this.isLoading = true;
 
     try {
-      const response = await fetch('http://localhost:8000/analyseDiscussion', {
+      const response = await this.auth.authenticatedFetch('http://localhost:8000/analyseDiscussion', {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',

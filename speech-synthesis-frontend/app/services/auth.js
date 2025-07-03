@@ -1,5 +1,5 @@
 // app/services/auth-militant.js
-import Service from '@ember/service';
+import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
@@ -25,14 +25,17 @@ export default class AuthService extends Service {
     try {
       const savedToken = localStorage.getItem('militant_token');
       if (!savedToken) {
+              debugger
+
         return false;
       }
       
       const response = await fetch(`http://localhost:8000/auth/verify-militant?token=${encodeURIComponent(savedToken)}`);
       const data = await response.json();
-
+      console.log(data)
       return data.valid && data.militant;
     } catch (erreur) {
+      debugger
       console.log(erreur);
       return false;
     }
@@ -97,7 +100,7 @@ export default class AuthService extends Service {
       return false;
     }
   }
-
+@service modal;
   @action
   logout() {
     this.token = null;
@@ -105,6 +108,7 @@ export default class AuthService extends Service {
     this.militantName = null;
     this.militantId = null;
     localStorage.removeItem('militant_token');
+    this.modal.openLogging()
   }
 
   // Méthode utilitaire pour décoder le token JWT côté client (optionnel)
