@@ -7,11 +7,6 @@ export default class AdminDashboardRoute extends Route {
   @service authAdmin;
   @service router;
 
-    queryParams = {
-    date: {
-      refreshModel: true,
-    },
-  };
 
 
   beforeModel() {

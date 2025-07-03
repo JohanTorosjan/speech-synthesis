@@ -61,6 +61,10 @@ class MilitantAuthResponse(BaseModel):
     message: str = None
     militant_name: str = None
 
+@router.get("/health")
+async def health():
+    return {"status": "ok"}
+
 # Dépendance pour extraire le token du header Authorization
 def get_militant_token(authorization: str = Header(None)):
     if not authorization:
@@ -174,6 +178,7 @@ async def chat_with_mistral():
         raise HTTPException(status_code=500, detail=str(e))
     
 
+import asyncio
 
 @router.post("/analyseDiscussion")
 async def analyseDiscussion(request: Request, payload: dict = Depends(require_militant_auth)):
@@ -194,7 +199,8 @@ async def analyseDiscussion(request: Request, payload: dict = Depends(require_mi
     
     try:
         crew = get_text_analysis_crew()
-        agents_result = crew.process_text(text)
+
+        agents_result = await asyncio.to_thread(crew.process_text,text)
         
         # Ajout d'informations sur le militant qui a soumis l'analyse
         agents_result["militant_name"] = militant_name

@@ -37,6 +37,16 @@ export default class ExportSelector extends Component {
     
     return `${year}-${month}-${day}`;
   }
+   formatDateToFrenchShort(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return ` ${hour} h  ${minutes}`;
+}
 
   @action
   toggleExportAll(event) {
@@ -166,8 +176,10 @@ export default class ExportSelector extends Component {
     // En-têtes CSV
     const headers = [
       'ID',
-      'Prénom',
-      'Nom',
+      'Prénom Militant',
+      'Nom Militant',
+      'Prénom Citoyen',
+      'Nom Citoyen',
       'Email',
       'Date de naissance',
       'Texte original',
@@ -175,12 +187,14 @@ export default class ExportSelector extends Component {
       'Structure dialogue',
       'Tâches complétées',
       'Date création',
-      'Date modification'
+      'Heure,'
     ];
 
     // Convertir les données
     const rows = data.map(item => [
       item.id || '',
+      item.militant_prenom || '',
+      item.militant_nom || '',
       item.citizen_firstname || '',
       item.citizen_lastname || '',
       item.citizen_email || '',
@@ -189,9 +203,9 @@ export default class ExportSelector extends Component {
       `"${(item.analysis_result || '').replace(/"/g, '""')}"`,
       `"${(item.dialogue_structure || '').replace(/"/g, '""')}"`,
       item.tasks_completed || '',
-      item.created_at || '',
-      item.updated_at || ''
-    ]);
+      this.formatDateForInput(item.created_at) || '',
+      this.formatDateToFrenchShort(item.created_at) || '',
+        ]);
 
     // Assembler le CSV
     const csvLines = [headers.join(','), ...rows.map(row => row.join(','))];

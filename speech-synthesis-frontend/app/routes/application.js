@@ -19,7 +19,6 @@ export default class ApplicationRoute extends Route {
         
         if (response === false) {
             this.modal.openLogging();
-            return; // Arrêter ici si pas authentifié
         }
     } catch (error) {
         console.error('Erreur auth:', error);

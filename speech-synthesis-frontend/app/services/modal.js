@@ -9,7 +9,7 @@ export default class ModalService extends Service {
   @tracked exportDate;
   @tracked showLogging = false;
   @tracked showExport = false;
-
+@tracked showMilitant = false;
 
   open(title,content,type) {
     this.title = title
@@ -44,4 +44,15 @@ export default class ModalService extends Service {
     this.exportDate = exportDate
     this.showExport=true;
   }
+
+  openMilitant(){
+      this.showMilitant=false;
+
+}
+  closeMilitant(){
+    this.showMilitant=true;
+  }
+
+
+
 }

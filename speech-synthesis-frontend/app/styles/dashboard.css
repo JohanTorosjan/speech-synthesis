@@ -52,6 +52,7 @@ thead{
   overflow: hidden;
   height: 79vh;
   border: 1px solid black;
+  overflow-y: scroll;
 }
 
 .table-header {

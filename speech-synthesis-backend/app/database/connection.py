@@ -239,7 +239,7 @@ def perform_get_all_syntheses(start_date,sort,offset,sort_column,order_direction
     where_clauses = []
     params = {"offset": offset}
     if start_date:
-        where_clauses.append("DATE(created_at) = :start_date")
+        where_clauses.append("DATE(s.created_at) = :start_date")
         # Assure toi que start_date soit en datetime UTC min
         params["start_date"] = datetime.combine(start_date, datetime.min.time())
     where_sql = ""
@@ -257,10 +257,10 @@ def perform_get_all_syntheses(start_date,sort,offset,sort_column,order_direction
 
         with engine.connect() as connection:
             query = text(f"""
-                SELECT id, original_text, analysis_result, dialogue_structure, tasks_completed, 
-                       citizen_firstname, citizen_lastname, citizen_email, citizen_dob, 
-                       created_at, updated_at
-                FROM synthesis
+                SELECT s.id, s.original_text, s.analysis_result, s.dialogue_structure, s.tasks_completed, 
+                       s.citizen_firstname, s.citizen_lastname, s.citizen_email, s.citizen_dob, 
+                       s.created_at, s.updated_at, m.nom, m.prenom
+                FROM synthesis s JOIN militants m ON s.militants_id = m.id
                 {where_sql}
                 ORDER BY {sort_column} {order_direction}
                 OFFSET :offset
@@ -281,7 +281,9 @@ def perform_get_all_syntheses(start_date,sort,offset,sort_column,order_direction
                     "citizen_email": row.citizen_email,
                     "citizen_dob": row.citizen_dob,
                     "created_at": row.created_at,
-                    "updated_at": row.updated_at
+                    "updated_at": row.updated_at,
+                    "militant_nom": row.nom,
+                    "militant_prenom": row.prenom,
                 })
 
             return {
@@ -299,11 +301,11 @@ def perform_get_syntheses_by_date_range(start_date, end_date, sort, offset, sort
     params = {"offset": offset}
     
     if start_date:
-        where_clauses.append("DATE(created_at) >= :start_date")
+        where_clauses.append("DATE(s.created_at) >= :start_date")
         params["start_date"] = datetime.combine(start_date, datetime.min.time())
     
     if end_date:
-        where_clauses.append("DATE(created_at) <= :end_date")
+        where_clauses.append("DATE(s.created_at) <= :end_date")
         params["end_date"] = datetime.combine(end_date, datetime.max.time())
     
     where_sql = ""
@@ -320,10 +322,10 @@ def perform_get_syntheses_by_date_range(start_date, end_date, sort, offset, sort
 
         with engine.connect() as connection:
             query = text(f"""
-                SELECT id, original_text, analysis_result, dialogue_structure, tasks_completed, 
-                       citizen_firstname, citizen_lastname, citizen_email, citizen_dob, 
-                       created_at, updated_at
-                FROM synthesis
+               SELECT s.id, s.original_text, s.analysis_result, s.dialogue_structure, s.tasks_completed, 
+                       s.citizen_firstname, s.citizen_lastname, s.citizen_email, s.citizen_dob, 
+                       s.created_at, s.updated_at, m.nom, m.prenom
+                FROM synthesis s JOIN militants m ON s.militants_id = m.id
                 {where_sql}
                 ORDER BY {sort_column} {order_direction}
                 OFFSET :offset
@@ -343,8 +345,9 @@ def perform_get_syntheses_by_date_range(start_date, end_date, sort, offset, sort
                     "citizen_lastname": row.citizen_lastname,
                     "citizen_email": row.citizen_email,
                     "citizen_dob": row.citizen_dob,
-                    "created_at": row.created_at,
-                    "updated_at": row.updated_at
+                    "created_at": row.created_at.isoformat(),
+                    "militant_nom": row.nom,
+                    "militant_prenom": row.prenom,
                 })
 
             return {

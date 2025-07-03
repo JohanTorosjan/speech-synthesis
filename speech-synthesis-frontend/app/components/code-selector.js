@@ -56,7 +56,6 @@ export default class CodeSelector extends Component {
 
         }
         catch(error){
-          debugger
                       this.wrongCode=true;
             this.code = []
         }

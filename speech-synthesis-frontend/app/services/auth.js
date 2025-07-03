@@ -25,7 +25,6 @@ export default class AuthService extends Service {
     try {
       const savedToken = localStorage.getItem('militant_token');
       if (!savedToken) {
-              debugger
 
         return false;
       }
@@ -35,7 +34,6 @@ export default class AuthService extends Service {
       console.log(data)
       return data.valid && data.militant;
     } catch (erreur) {
-      debugger
       console.log(erreur);
       return false;
     }

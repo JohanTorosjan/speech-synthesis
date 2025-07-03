@@ -11,7 +11,7 @@ export default class DashboardController extends Controller {
   @tracked sortColumn = 'name';
   @tracked sortAsc = true;
   @tracked currentPage = 1;
-  @tracked itemsPerPage = 10;
+  @tracked itemsPerPage = 100;
   @tracked isLoading = false;
   @tracked allSelected = false;
   @service authAdmin
@@ -66,9 +66,15 @@ get dateSelected(){
       class: 'date-column',
       isDate: true
     },
+      {
+      key: 'militant',
+      label: 'Nom militant',
+      class: 'militant-column',
+      isDate: true
+    },
     {
       key: 'name',
-      label: 'Nom',
+      label: 'Nom citoyen',
       class: 'name-column',
       isCustom: false
     },
@@ -93,7 +99,6 @@ get dateSelected(){
 
 
 @computed('datas')
-
 get rawData(){
 
   if(this.datas===null){
@@ -106,13 +111,15 @@ const lastName = data.citizen_lastname!==null?data.citizen_lastname:''
       created_at:this.formatDateToFrenchShort(data.created_at),
       name:`${name} ${lastName}`,
       email:data?.citizen_email,
-      synthese:data.id
+      synthese:data.id,
+      militant:`${data.militant_nom} ${data.militant_prenom}`
   }
 }
 )
   }
 
   else{
+    
     return this.datas.data.map((data)=>{
 const name = data.citizen_firstname!==null?data.citizen_firstname:''
 const lastName = data.citizen_lastname!==null?data.citizen_lastname:''
@@ -121,7 +128,8 @@ const lastName = data.citizen_lastname!==null?data.citizen_lastname:''
       created_at:this.formatDateToFrenchShort(data.created_at),
       name:`${name} ${lastName}`,
       email:data?.citizen_email,
-            synthese:data.id
+            synthese:data.id,
+      militant:`${data.militant_nom} ${data.militant_prenom}`
 
   }
 }
@@ -132,7 +140,6 @@ const lastName = data.citizen_lastname!==null?data.citizen_lastname:''
   @computed('rawData', 'searchTerm', 'selectedCategory')
   get filteredData() {
     let data = this.rawData;
-
     // Filtre par recherche
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
@@ -435,7 +442,10 @@ formatDate(date) {
   this.modal.openExport(this.date)
   }
 
-
+@action
+openMilitants(){
+  this.modal.openMilitant()
+}
   @action
   openSynthese(item){
 const url = this.router.urlFor('synthese', {
