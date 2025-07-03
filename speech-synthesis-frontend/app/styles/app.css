@@ -295,3 +295,7 @@ color: var(--tertiary-color);
   background-color: rgba(0, 0, 0, 0.8);
 
 }
+
+.militant-modal{
+  max-width: 90vw;;
+}

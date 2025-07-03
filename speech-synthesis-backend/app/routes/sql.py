@@ -276,57 +276,58 @@ async def get_synthese(synthese_id: int):
         raise e
 
 
-# Routes administratives pour la gestion des militants
-@router.post("/admin/militants")
-async def create_new_militant(militant_data: MilitantCreateRequest):
-    """
-    Crée un nouveau militant (route admin - peut être protégée plus tard)
-    """
-    try:
-        return create_militant(
-            nom=militant_data.nom,
-            prenom=militant_data.prenom,
-            email=militant_data.email,
-            code=militant_data.code
-        )
-    except HTTPException as e:
-        raise e
+# # Routes administratives pour la gestion des militants
+# @router.post("/admin/militants")
+# async def create_new_militant(militant_data: MilitantCreateRequest):
+#     """
+#     Crée un nouveau militant (route admin - peut être protégée plus tard)
+#     """
+#     try:
+#         return create_militant(
+#             nom=militant_data.nom,
+#             prenom=militant_data.prenom,
+#             email=militant_data.email,
+#             code=militant_data.code
+#         )
+#     except HTTPException as e:
+#         raise e
 
 
-@router.get("/admin/militants")
-async def list_militants(actif_only: bool = True):
-    """
-    Liste tous les militants (route admin)
-    """
-    try:
-        return get_all_militants(actif_only=actif_only)
-    except HTTPException as e:
-        raise e
+# @router.get("/admin/militants")
+# async def list_militants(actif_only: bool = True):
+#     """
+#     Liste tous les militants (route admin)
+#     """
+#     try:
+#         return get_all_militants(actif_only=actif_only)
+#     except HTTPException as e:
+#         raise e
 
 
-@router.put("/admin/militants/{militant_id}/status")
-async def update_militant_activity_status(militant_id: int, status_data: MilitantUpdateStatusRequest):
-    """
-    Met à jour le statut actif/inactif d'un militant (route admin)
-    """
-    try:
-        return update_militant_status(militant_id, status_data.actif)
-    except HTTPException as e:
-        raise e
+# @router.put("/admin/militants/{militant_id}/status")
+# async def update_militant_activity_status(militant_id: int, status_data: MilitantUpdateStatusRequest):
+#     """
+#     Met à jour le statut actif/inactif d'un militant (route admin)
+#     """
+#     try:
+#         return update_militant_status(militant_id, status_data.actif)
+#     except HTTPException as e:
+#         raise e
+    
 
 
-@router.get("/admin/militants/{militant_id}")
-async def get_militant_details(militant_id: int):
-    """
-    Récupère les détails d'un militant par son ID (route admin)
-    """
-    try:
-        militant = get_militant_by_id(militant_id)
-        if not militant:
-            raise HTTPException(status_code=404, detail="Militant non trouvé")
-        return militant
-    except HTTPException as e:
-        raise e
+# @router.get("/admin/militants/{militant_id}")
+# async def get_militant_details(militant_id: int):
+#     """
+#     Récupère les détails d'un militant par son ID (route admin)
+#     """
+#     try:
+#         militant = get_militant_by_id(militant_id)
+#         if not militant:
+#             raise HTTPException(status_code=404, detail="Militant non trouvé")
+#         return militant
+#     except HTTPException as e:
+#         raise e
     
 
 @router.get("/synthese/{synthese_id}")

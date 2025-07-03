@@ -46,11 +46,13 @@ export default class ModalService extends Service {
   }
 
   openMilitant(){
-      this.showMilitant=false;
+      this.showMilitant=true;
 
 }
+
   closeMilitant(){
-    this.showMilitant=true;
+  
+    this.showMilitant=false;
   }
 
 

@@ -1,1 +1,338 @@
-{{yield}}
+<div class="militant-manager">
+  <h2>Gestion des Militants</h2>
+                    <button class="close-militants" {{on "click" this.closeMilitants }}>
+                X
+                    </button>
+  {{#if this.error}}
+    <div class="alert alert-error">
+      {{this.error}}
+    </div>
+  {{/if}}
+
+  {{#if this.isLoading}}
+    <div class="loading">
+      Chargement...
+    </div>
+  {{/if}}
+
+  <div class="militant-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Code</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Ligne d'ajout -->
+        <tr class="new-militant-row">
+          <td>
+            <input 
+              type="text" 
+              value={{this.newMilitant.nom}}
+              placeholder="Nom"
+              {{on "input" (fn this.updateNewMilitantField "nom")}}
+              disabled={{this.isLoading}}
+            />
+          </td>
+          <td>
+            <input 
+              type="text" 
+              value={{this.newMilitant.prenom}}
+              placeholder="Prénom"
+              {{on "input" (fn this.updateNewMilitantField "prenom")}}
+              disabled={{this.isLoading}}
+            />
+          </td>
+          <td>
+            <input 
+              type="email" 
+              value={{this.newMilitant.email}}
+              placeholder="Email"
+              {{on "input" (fn this.updateNewMilitantField "email")}}
+              disabled={{this.isLoading}}
+            />
+          </td>
+          <td>
+            <input 
+              type="text" 
+              value={{this.newMilitant.code}}
+              placeholder="Code"
+              {{on "input" (fn this.updateNewMilitantField "code")}}
+              disabled={{this.isLoading}}
+            />
+          </td>
+          <td>
+            <button 
+              type="button" 
+              class="btn btn-primary"
+              {{on "click" this.addMilitant}}
+              disabled={{this.isLoading}}
+            >
+              +
+            </button>
+          </td>
+        </tr>
+
+        <!-- Lignes des militants existants -->
+        {{#each this.militants as |militant|}}
+          <tr class="militant-row" data-militant-id={{militant.id}}>
+            <td>
+              <input 
+                type="text" 
+                value={{get (this.getEditingData militant.id) "nom"}}
+                {{on "input" (fn this.updateMilitantField militant.id "nom")}}
+                disabled={{this.isLoading}}
+              />
+            </td>
+            <td>
+              <input 
+                type="text" 
+                value={{get (this.getEditingData militant.id) "prenom"}}
+                {{on "input" (fn this.updateMilitantField militant.id "prenom")}}
+                disabled={{this.isLoading}}
+              />
+            </td>
+            <td>
+              <input 
+                type="email" 
+                value={{get (this.getEditingData militant.id) "email"}}
+                {{on "input" (fn this.updateMilitantField militant.id "email")}}
+                disabled={{this.isLoading}}
+              />
+            </td>
+            <td>
+              <input 
+                  type="text" 
+
+                value={{get (this.getEditingData militant.id) "code"}}
+                {{on "input" (fn this.updateMilitantField militant.id "code")}}
+                disabled={{this.isLoading}}
+              />
+            </td>
+            <td class="actions">
+              <button 
+                type="button" 
+                class="btn btn-danger btn-sm"
+                {{on "click" (fn this.deleteMilitant militant.id)}}
+                disabled={{this.isLoading}}
+                title="Supprimer le militant"
+              >
+                Supprimer
+              </button>
+              
+              {{#if (this.isModified militant.id)}}
+
+              
+               <button 
+                  type="button" 
+                  class="btn btn-success btn-sm"
+                  {{on "click" (fn this.saveMilitant militant.id)}}
+                  title="Sauvegarder les modifications"
+                >
+                  Sauvegarder
+                </button>
+              {{else}}
+                         <button 
+                  type="button" 
+                  class="btn btn-success btn-sm disabled-btn"
+                  disabled="true"
+                  title="Sauvegarder les modifications"
+                >
+                  Sauvegarder
+                </button>
+
+                {{/if}}   
+            </td>
+          </tr>
+        {{/each}}
+
+        {{#unless this.militants.length}}
+          {{#unless this.isLoading}}
+            <tr>
+              <td colspan="5" class="no-data">
+                Aucun militant trouvé
+              </td>
+            </tr>
+          {{/unless}}
+        {{/unless}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .militant-manager {
+    padding: 20px;
+    font-family: Arial, sans-serif;    
+
+  }
+
+  .militant-manager h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #666;
+  }
+
+  .militant-table {
+    overflow-x: auto;
+  }
+
+  .militant-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .militant-table th,
+  .militant-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .militant-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .militant-table input[type="text"],
+  .militant-table input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .militant-table input[type="text"]:focus,
+  .militant-table input[type="email"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+  }
+
+  .new-militant-row {
+  }
+
+  .new-militant-row input {
+    background-color: white;
+  }
+
+  .militant-row:hover {
+    background-color: #f8f9fa;
+  }
+
+  .actions {
+    white-space: nowrap;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    transition: background-color 0.2s;
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background-color: var(--tertiary-color);
+    color: white;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+
+  .btn-success {
+    background-color: var(--primary-color);
+    color: white;
+  }
+
+  .btn-success:hover:not(:disabled) {
+    background-color: var(--primary-color);
+  }
+
+  .btn-danger {
+    background-color: var( --red-button);
+    color: white;
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background-color: #c82333;
+  }
+
+  .btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .no-data {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    padding: 20px;
+  }
+
+  .disabled-btn{
+    background-color: var(--tertiary-color);
+;
+  }
+
+  @media (max-width: 768px) {
+    .militant-table {
+      font-size: 12px;
+    }
+    
+    .militant-table th,
+    .militant-table td {
+      padding: 8px;
+    }
+    
+    .btn {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+  }
+
+
+  .close-militants{
+    position: absolute;
+    top:5%;
+    left: 5%;
+    border: 0px;
+    padding: 0.7rem;
+    border-radius: 4px;
+  }
+</style>

@@ -9,7 +9,7 @@ CREATE TABLE militants (
     -- Informations du militant
     nom VARCHAR(100) NOT NULL,
     prenom VARCHAR(100) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) NOT NULL,
     
     -- Code d'authentification (peut être un hash si besoin de sécurité)
     code VARCHAR(255) NOT NULL,

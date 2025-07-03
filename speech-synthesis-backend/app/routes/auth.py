@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import os
 from datetime import datetime, timedelta
 import jwt
-from app.database.connection import perform_get_all_syntheses, perform_get_syntheses_by_date_range
+from app.database.connection import perform_get_all_syntheses, perform_get_syntheses_by_date_range,create_militant,update_militant,get_all_militants,update_militant_status,get_militant_by_id
 from datetime import datetime, date
 from typing import Optional
 
@@ -20,7 +20,25 @@ class AdminAuthResponse(BaseModel):
     success: bool
     token: str = None
     message: str = None
+class MilitantCreateRequest(BaseModel):
+    nom: str
+    prenom: str
+    email: str
+    code: str
 
+class MilitantUpdateStatusRequest(BaseModel):
+    actif: bool
+# Modèles pour l'authentification militant
+class MilitantAuthRequest(BaseModel):
+    code: str
+
+class MilitantUpdateRequest(BaseModel):
+    nom: str
+    prenom: str
+    email: str
+    code: str
+
+    
 # Configuration
 ADMIN_CODE = os.getenv("ADMIN_CODE", "ADMIN123")  # À définir dans vos variables d'environnement
 JWT_SECRET = os.getenv("JWT_SECRET", "votre-secret-jwt-tres-securise")
@@ -133,3 +151,88 @@ def get_syntheses_by_date_range(
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
+# Routes administratives protégées pour la gestion des militants
+@router.post("/admin/militants", summary="Créer un nouveau militant", tags=["Admin"])
+async def create_new_militant(
+    militant_data: MilitantCreateRequest,
+    payload: dict = Depends(require_admin_auth)
+):
+    """
+    Crée un nouveau militant (route admin protégée)
+    """
+    try:
+        return create_militant(
+            nom=militant_data.nom,
+            prenom=militant_data.prenom,
+            email=militant_data.email,
+            code=militant_data.code
+        )
+    except HTTPException as e:
+        raise e
+
+
+@router.get("/admin/militants", summary="Lister tous les militants", tags=["Admin"])
+async def list_militants(
+    payload: dict = Depends(require_admin_auth),
+    actif_only: bool = Query(True, description="Filtrer uniquement les militants actifs")
+):
+    """
+    Liste tous les militants (route admin protégée)
+    """
+    try:
+        return get_all_militants(actif_only=actif_only)
+    except HTTPException as e:
+        raise e
+
+
+@router.put("/admin/militants/{militant_id}/status", summary="Mettre à jour le statut d'un militant", tags=["Admin"])
+async def update_militant_activity_status(
+    militant_id: int,
+    status_data: MilitantUpdateStatusRequest,
+    payload: dict = Depends(require_admin_auth)
+):
+    """
+    Met à jour le statut actif/inactif d'un militant (route admin protégée)
+    """
+    try:
+        return update_militant_status(militant_id, status_data.actif)
+    except HTTPException as e:
+        raise e
+
+
+@router.get("/admin/militants/{militant_id}", summary="Récupérer un militant par ID", tags=["Admin"])
+async def get_militant_details(
+    militant_id: int,
+    payload: dict = Depends(require_admin_auth)
+):
+    """
+    Récupère les détails d'un militant par son ID (route admin protégée)
+    """
+    try:
+        militant = get_militant_by_id(militant_id)
+        if not militant:
+            raise HTTPException(status_code=404, detail="Militant non trouvé")
+        return militant
+    except HTTPException as e:
+        raise e
+
+
+# Route PUT pour mise à jour complète d'un militant
+@router.put("/admin/militants/{militant_id}", summary="Mettre à jour un militant", tags=["Admin"])
+async def update_militant_data(
+    militant_id: int,
+    militant_data: MilitantUpdateRequest,
+    payload: dict = Depends(require_admin_auth)
+):
+    """
+    Met à jour les informations complètes d'un militant (route admin protégée)
+    """
+    try:
+        return update_militant(militant_id, militant_data)
+    except HTTPException as e:
+        raise e
+

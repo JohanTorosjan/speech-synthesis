@@ -539,7 +539,7 @@ def get_all_militants(actif_only: bool = True):
         with engine.connect() as connection:
             result = connection.execute(
                 text(f"""
-                    SELECT id, nom, prenom, email, actif, created_at, updated_at
+                    SELECT id, nom, prenom, email, actif, created_at, updated_at,code
                     FROM militants 
                     {where_clause}
                     ORDER BY nom, prenom
@@ -555,7 +555,8 @@ def get_all_militants(actif_only: bool = True):
                     "email": row[3],
                     "actif": row[4],
                     "created_at": row[5],
-                    "updated_at": row[6]
+                    "updated_at": row[6],
+                    "code":row[7]
                 })
             
             return {
@@ -567,3 +568,56 @@ def get_all_militants(actif_only: bool = True):
     except Exception as e:
         logger.error(f"Erreur lors de la récupération des militants: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+    
+
+# Modèle Pydantic pour la requête de mise à jour (à ajouter dans vos modèles)
+class MilitantUpdateRequest(BaseModel):
+    nom: str
+    prenom: str
+    email: str
+    code: str
+
+    
+def update_militant(militant_id: int, militant_data: MilitantUpdateRequest):
+    """
+    Met à jour les informations complètes d'un militant
+    """
+    try:
+        with engine.begin() as connection:
+            result = connection.execute(
+                text("""
+                    UPDATE militants 
+                    SET nom = :nom, prenom = :prenom, email = :email, code = :code, updated_at = CURRENT_TIMESTAMP
+                    WHERE id = :militant_id AND actif = true
+                """),
+                {
+                    "nom": militant_data.nom,
+                    "prenom": militant_data.prenom,
+                    "email": militant_data.email,
+                    "code": militant_data.code,
+                    "militant_id": militant_id
+                }
+            )
+            
+            if result.rowcount == 0:
+                raise HTTPException(status_code=404, detail="Militant non trouvé")
+            
+            logger.info(f"Militant {militant_id} mis à jour: {militant_data.nom} {militant_data.prenom}")
+            
+            return {
+                "success": True,
+                "message": "Militant mis à jour avec succès",
+                "militant_id": militant_id
+            }
+            
+    except HTTPException:
+        raise
+    except SQLAlchemyError as e:
+        logger.error(f"Erreur lors de la mise à jour du militant: {e}")
+        if "unique constraint" in str(e).lower():
+            raise HTTPException(status_code=400, detail="Un militant avec ce nom/email existe déjà")
+        raise HTTPException(status_code=500, detail="Erreur de base de données")
+    except Exception as e:
+        logger.error(f"Erreur inattendue lors de la mise à jour du militant: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
