@@ -35,7 +35,7 @@
             >
         </div>
         
-        <div class="input-group">
+        {{!-- <div class="input-group">
             <input 
                 type="text" 
                 class="form-input date-input" 
@@ -46,7 +46,7 @@
                 {{on "blur" this.validateDob}}
                 {{on "keypress" this.handleKeyPress}}
             >
-        </div>
+        </div> --}}
         
         <button type="submit" class="submit-button">
             {{#if this.aiAgents.isLoading}}
@@ -61,7 +61,7 @@
     
 </div>
     <script>
-          document.querySelector('.date-input').addEventListener('input', function(e) {
+         /*document.querySelector('.date-input').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, ''); // Supprimer tout ce qui n'est pas un chiffre
             
             // Limiter à 8 chiffres maximum
@@ -100,5 +100,5 @@
             if (!/[\d\/]/.test(char)) {
                 e.preventDefault();
             }
-        });
-    </script>
+        });$*/
+    </script> 

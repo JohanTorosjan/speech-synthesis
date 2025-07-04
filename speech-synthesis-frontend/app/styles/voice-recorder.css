@@ -97,7 +97,7 @@
   .top-text {
     position: absolute;
     top: 0;
-    font-size: 1rem;
+    font-size: 0.5rem;
   }
 
   .big-button {
@@ -106,10 +106,17 @@
         height: 20dvh;
     width: 20dvh;
     font-size: 1.5rem;
+    margin: 0;
   }
 
   .bottom-button {
-    bottom: 1vh;    bottom: 1dvh;
+    bottom: 1vh;    bottom: 0dvh;
+        font-size: 0.5rem;
+
+  }
+  .end-content{
+     bottom: 0dvh;
+        font-size: 0.5rem;
   }
 }
 

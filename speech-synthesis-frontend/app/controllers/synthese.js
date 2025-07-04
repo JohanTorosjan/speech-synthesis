@@ -62,7 +62,7 @@ export default class SyntheseController extends Controller {
 
   @action
   openModale(){
-    this.modal.open("Commencer un nouveau dialogue ?","Cette action supprimera la synthèse courrante","reset")
+    this.modal.open("Commencer un nouveau dialogue ?","Vous ne pourrez plus accéder à cette synthèse.","reset")
 
   }
 }
