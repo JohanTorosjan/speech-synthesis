@@ -318,6 +318,12 @@ thead{
     border-radius: 0;
   }
   
+td{
+  max-width: 3vw;
+  overflow: hidden;
+  font-size: 0.6rem;
+}
+
   .table-header-cell,
   .table-cell {
     padding: 0.5rem 0.25rem;
