@@ -369,7 +369,7 @@ async loadData(dateOffset) {
   date.setDate(date.getDate() + offset);
   
   const response = await this.authAdmin.authenticatedFetch(
-    `http://localhost:8000/admin/synthesis?offset=0&sort=-created_at&start_date=${this.formatDate(date)}`
+    `https://api.applicitoyenne.fr/admin/synthesis?offset=0&sort=-created_at&start_date=${this.formatDate(date)}`
   );
   
   if (!response.ok) {

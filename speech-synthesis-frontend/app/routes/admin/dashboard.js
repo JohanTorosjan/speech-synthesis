@@ -40,7 +40,7 @@ export default class AdminDashboardRoute extends Route {
     try {
 
       // Exemple d'appel API authentifié
-      const response = await this.authAdmin.authenticatedFetch(`http://localhost:8000/admin/synthesis?offset=0&sort=-created_at&start_date=${this.formatDate(date)}`);
+      const response = await this.authAdmin.authenticatedFetch(`https://api.applicitoyenne.fr/admin/synthesis?offset=0&sort=-created_at&start_date=${this.formatDate(date)}`);
       
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);

@@ -19,3 +19,8 @@ speech-synthesis-frontend/DEBUG/
 # Autres règles communes
 .DS_Store
 *.log
+*.pyc
+
+# Garder le dossier mais ignorer les certificats
+letsencrypt/*
+!letsencrypt/.gitkeep

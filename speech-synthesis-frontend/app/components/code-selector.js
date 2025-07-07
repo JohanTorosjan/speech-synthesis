@@ -31,7 +31,7 @@ export default class CodeSelector extends Component {
             this.code = []
         }
 
-// const response = await fetch('http://localhost:8000/auth/militant', {
+// const response = await fetch('https://api.applicitoyenne.fr/auth/militant', {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',

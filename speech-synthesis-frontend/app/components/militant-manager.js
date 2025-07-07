@@ -33,7 +33,7 @@ export default class MilitantManager extends Component {
     this.error = null;
     
     try {
-      const response = await this.authAdmin.authenticatedFetch('http://localhost:8000/admin/militants');
+      const response = await this.authAdmin.authenticatedFetch('https://api.applicitoyenne.fr/admin/militants');
       
       if (!response.ok) {
         throw new Error(`Erreur ${response.status}: ${response.statusText}`);
@@ -120,7 +120,7 @@ let value = event.target.value
     this.error = null;
     
     try {
-      const response = await this.authAdmin.authenticatedFetch('http://localhost:8000/admin/militants', {
+      const response = await this.authAdmin.authenticatedFetch('https://api.applicitoyenne.fr/admin/militants', {
         method: 'POST',
         body: JSON.stringify(this.newMilitant)
       });
@@ -166,7 +166,7 @@ let value = event.target.value
     this.error = null;
     
     try {
-      const response = await this.authAdmin.authenticatedFetch(`http://localhost:8000/admin/militants/${militantId}`, {
+      const response = await this.authAdmin.authenticatedFetch(`https://api.applicitoyenne.fr/admin/militants/${militantId}`, {
         method: 'PUT',
         body: JSON.stringify(editedData)
       });
@@ -210,7 +210,7 @@ let value = event.target.value
     this.error = null;
     
     try {
-      const response = await this.authAdmin.authenticatedFetch(`http://localhost:8000/admin/militants/${militantId}/status`, {
+      const response = await this.authAdmin.authenticatedFetch(`https://api.applicitoyenne.fr/admin/militants/${militantId}/status`, {
         method: 'PUT',
         body: JSON.stringify({ actif: false })
       });

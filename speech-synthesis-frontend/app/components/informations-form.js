@@ -94,7 +94,7 @@ export default class InformationsForm extends Component {
       const [day, month, year] = this.dob.split('/');
       const isoDate = `${year}-${month?.padStart(2, '0')}-${day?.padStart(2, '0')}`;
       const response = await fetch(
-        `http://localhost:8000/synthesis/${synthesisId}/citizen`,
+        `https://api.applicitoyenne.fr/synthesis/${synthesisId}/citizen`,
         {
           method: 'PUT',
           headers: {

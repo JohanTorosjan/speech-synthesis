@@ -12,7 +12,7 @@ export default class SyntheseRoute extends Route {
   async model(params) {
     try {
       const response = await fetch(
-        `http://localhost:8000/synthese/${params.id}`,
+        `https://api.applicitoyenne.fr/synthese/${params.id}`,
         {
           method: 'GET',
           headers: {

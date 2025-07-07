@@ -13,7 +13,7 @@ export default class AiAgentsService extends Service {
     this.isLoading = true;
 
     try {
-      const response = await this.auth.authenticatedFetch('http://localhost:8000/analyseDiscussion', {
+      const response = await this.auth.authenticatedFetch('https://api.applicitoyenne.fr/analyseDiscussion', {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',

@@ -23,7 +23,7 @@ export default class AuthAdminService extends Service {
   async checkToken(){
  try {
      const savedToken = localStorage.getItem('admin_token');
-      const response = await fetch(`http://localhost:8000/auth/verify-admin?token=${encodeURIComponent(savedToken)}`);
+      const response = await fetch(`https://api.applicitoyenne.fr/auth/verify-admin?token=${encodeURIComponent(savedToken)}`);
       const data = await response.json();
 
       return data.valid
@@ -39,7 +39,7 @@ export default class AuthAdminService extends Service {
   @action
   async authenticateWithCode(code) {
     try {
-      const response = await fetch('http://localhost:8000/auth/admin', {
+      const response = await fetch('https://api.applicitoyenne.fr/auth/admin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ export default class AuthAdminService extends Service {
   @action
   async verifyToken(token) {
     try {
-      const response = await fetch(`http://localhost:8000/auth/verify-admin?token=${encodeURIComponent(token)}`);
+      const response = await fetch(`https://api.applicitoyenne.fr/auth/verify-admin?token=${encodeURIComponent(token)}`);
       const data = await response.json();
       if (response.ok && data.valid && data.admin) {
         this.token = token;

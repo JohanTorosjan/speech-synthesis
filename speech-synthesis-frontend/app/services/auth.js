@@ -29,7 +29,7 @@ export default class AuthService extends Service {
         return false;
       }
       
-      const response = await fetch(`http://localhost:8000/auth/verify-militant?token=${encodeURIComponent(savedToken)}`);
+      const response = await fetch(`https://api.applicitoyenne.fr/auth/verify-militant?token=${encodeURIComponent(savedToken)}`);
       const data = await response.json();
       console.log(data)
       return data.valid && data.militant;
@@ -42,7 +42,7 @@ export default class AuthService extends Service {
   @action
   async authenticateWithCode(code) {
     try {
-      const response = await fetch('http://localhost:8000/auth/militant', {
+      const response = await fetch('https://api.applicitoyenne.fr/auth/militant', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ export default class AuthService extends Service {
   @action
   async verifyToken(token) {
     try {
-      const response = await fetch(`http://localhost:8000/auth/verify-militant?token=${encodeURIComponent(token)}`);
+      const response = await fetch(`https://api.applicitoyenne.fr/auth/verify-militant?token=${encodeURIComponent(token)}`);
       const data = await response.json();
       
       if (response.ok && data.valid && data.militant) {

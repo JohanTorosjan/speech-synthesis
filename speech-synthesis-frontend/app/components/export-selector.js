@@ -96,7 +96,7 @@ export default class ExportSelector extends Component {
       }
 
       const token = localStorage.getItem("admin_token");
-      const baseUrl = 'http://localhost:8000'; // Ajuste selon ton environnement
+      const baseUrl = 'https://api.applicitoyenne.fr'; // Ajuste selon ton environnement
       
       let url;
       if (this.exportAll) {
