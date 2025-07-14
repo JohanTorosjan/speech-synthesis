@@ -72,6 +72,7 @@ export default class AuthService extends Service {
       }
     } catch (error) {
       console.error('Erreur d\'authentification militant:', error);
+      
       return { success: false, message: 'Erreur de connexion' };
     }
   }

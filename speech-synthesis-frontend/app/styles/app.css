@@ -50,6 +50,7 @@ body {
   color: var(--text-primary);
   font-family: "Arial", sans-serif;
   overflow-x: hidden;
+  touch-action: manipulation; /* désactive double-tap zoom sur certains navigateurs */
 
 }
 
