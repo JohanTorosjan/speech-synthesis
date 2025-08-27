@@ -13,7 +13,7 @@ class TextAnalysisCrew:
     def __init__(self):
         # Configuration du LLM (Mistral) - méthode corrigée
         self.llm = LLM(
-            model="mistral/mistral-small-latest",
+            model="mistral/mistral-large-latest",
             api_key="xMpsXmyfrawoSqMqryd1re5Ap3ejdBLO",
             temperature=0.7
         )
