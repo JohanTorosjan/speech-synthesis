@@ -1,8 +1,13 @@
 {{!-- app/templates/application.hbs --}}
 <div class="app-container">
   {{!-- Header --}}
+
+      {{#if (eq this.router.currentRouteName "home")}}
+            {{outlet}}
+
+{{else}}
   <header class="app-header">
-        <img class="logo" src="/assets/1heure_vert.png"/>
+        <img class="logo" src="/assets/d.png"/>
 
     {{#if this.aiAgents.error}}
       <h1>Erreur</h1>
@@ -23,6 +28,8 @@
           <img class="logo" src="/assets/basiline_verte.png"/>
 
   </footer>
+{{/if}}
+
 </div>
 
 

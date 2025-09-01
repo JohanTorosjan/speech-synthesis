@@ -1,0 +1,60 @@
+{{yield}}
+
+
+<div 
+  class="screenshot-carousel"
+  {{on "mouseenter" this.onMouseEnter}}
+  {{on "mouseleave" this.onMouseLeave}}
+>
+  <div class="carousel-container">
+    <!-- Image principale -->
+    <div class="main-image-container">
+      <img 
+        src={{this.currentScreenshot.src}}
+        alt={{this.currentScreenshot.alt}}
+        class="main-image"
+      />
+      
+      <!-- Flèches de navigation -->
+      <button 
+        type="button"
+        class="nav-button nav-button--prev"
+        {{on "click" this.prevSlide}}
+        aria-label="Image précédente"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      
+      <button 
+        type="button"
+        class="nav-button nav-button--next"
+        {{on "click" this.nextSlide}}
+        aria-label="Image suivante"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Indicateurs de pagination -->
+    <div class="indicators">
+      {{#each this.screenshots as |screenshot index|}}
+        <button 
+          type="button"
+          class="indicator {{if (eq index this.currentIndex) 'indicator--active'}}"
+          {{on "click" (fn this.goToSlide index)}}
+        ></button>
+      {{/each}}
+    </div>
+
+    <!-- Titre de l'image actuelle -->
+    {{#if this.currentScreenshot.title}}
+      <div class="image-title">
+        {{this.currentScreenshot.title}}
+      </div>
+    {{/if}}
+  </div>
+</div>

@@ -1,0 +1,449 @@
+.a{
+    width: 90vw;
+    height: 90vh;
+    background-color: red;
+      display: flex;
+  flex-direction: column;
+}
+
+.b{
+  background: white; 
+  height: 100%;
+        display: flex;
+  flex-direction: row;
+}
+.c{
+      height: 100%;
+
+  background: white; 
+          display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+.b1{
+    width: 90%;
+}
+.b2{
+    width: 90%;
+}
+
+.c1{
+    width: 100%;
+}
+.c2{
+    width: 100%;
+}
+
+
+
+.b2-b{
+    width: 100%;
+        height: 100%;
+background-color: grey;
+}
+
+
+
+.home-header {
+  background-color:var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow);
+  height: 12dvh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  text-align: center;
+  font-family: "Permanent Marker", cursive;    
+   position: relative;
+   overflow: hidden;
+
+
+ color:var(var(--text-primary));
+
+ 
+}
+
+.home-logo{
+    width: 40dvw;
+
+    height: auto;
+}
+
+
+.main-home {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 0;
+  padding-bottom: 0;
+  background-color: white;
+    align-self: center;
+    padding-top: 3dvh ;
+
+}
+
+.header-right{
+font-size: 0.6rem;
+}
+
+
+
+
+
+
+/* Variables CSS spécifiques à la page Home */
+:root {
+  --home-primary-color: #09ef06;
+  --home-primary-light: #3b82f6;
+  --home-accent-color: #10b981;
+  --home-accent-light: #34d399;
+  --home-text-primary: #1f2937;
+  --home-text-secondary: #6b7280;
+  --home-text-light: #9ca3af;
+  --home-bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --home-card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --home-border-radius: 16px;
+  --home-spacing-xs: 8px;
+  --home-spacing-sm: 16px;
+  --home-spacing-md: 24px;
+  --home-spacing-lg: 32px;
+  --home-spacing-xl: 48px;
+}
+
+/* Amélioration du conteneur principal */
+.a {
+  width: 80dvw;
+  max-width: 1200px;
+  height: auto;
+  min-height: 80dvh;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: var(--home-spacing-lg);
+  margin: 0 auto;
+  padding: var(--home-spacing-md);
+}
+
+/* Section principale (hero) */
+.b {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: var(--home-border-radius);
+  box-shadow: var(--home-card-shadow);
+  padding: var(--home-spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--home-spacing-lg);
+  align-items: center;
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.b::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+}
+
+/* Section pourquoi c'est puissant */
+.c {
+  background: white;
+  border-radius: var(--home-border-radius);
+  box-shadow: var(--home-card-shadow);
+  padding: var(--home-spacing-xl);
+  display: flex;
+  flex-direction: row;
+  gap: var(--home-spacing-lg);
+  align-items: stretch;
+}
+
+.slides{
+  background: white;
+  border-radius: var(--home-border-radius);
+  box-shadow: var(--home-card-shadow);
+  padding: var(--home-spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--home-spacing-lg);
+  align-items: stretch;
+}
+/* Contenu texte principal */
+.b1 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--home-spacing-md);
+}
+
+.b1-a {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--home-text-primary);
+  line-height: 1.2;
+  margin-bottom: var(--home-spacing-sm);
+  background: var(--home-bg-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.b1-b {
+  font-size: 1.2rem;
+  color: var(--home-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--home-spacing-md);
+}
+
+.b1-b ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--home-spacing-md) 0;
+}
+
+.b1-b li {
+  padding: var(--home-spacing-sm);
+  margin: var(--home-spacing-xs) 0;
+  background: rgba(37, 99, 235, 0.05);
+  border-left: 4px solid var(--home-primary-color);
+  border-radius: 0 8px 8px 0;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.b1-b li:hover {
+  background: rgba(37, 99, 235, 0.1);
+  transform: translateX(5px);
+}
+
+/* Section image/app */
+.b2 {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--home-spacing-md);
+}
+
+.b2-a {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--home-primary-color);
+  text-align: center;
+}
+
+.b2-b {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: var(--home-border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.b2-b::before {
+
+  font-size: 4rem;
+  position: absolute;
+  opacity: 0.3;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Sections pourquoi c'est puissant */
+.c1, .c2 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--home-spacing-md);
+  padding: var(--home-spacing-md);
+}
+
+.c1-a, .c2-a {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--home-text-primary);
+  margin-bottom: var(--home-spacing-sm);
+}
+
+.c1-a {
+  color: var(--home-accent-color);
+}
+
+.c2-a {
+  color: var(--home-primary-color);
+}
+
+.c1-b, .c2-b {
+  font-size: 1.1rem;
+  color: var(--home-text-secondary);
+  line-height: 1.6;
+}
+
+.c1-b ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--home-spacing-sm) 0;
+}
+
+.c1-b li {
+  padding: var(--home-spacing-sm);
+  margin: var(--home-spacing-xs) 0;
+  background: rgba(16, 185, 129, 0.05);
+  border-left: 4px solid var(--home-accent-color);
+  border-radius: 0 8px 8px 0;
+  transition: all 0.3s ease;
+}
+
+.c1-b li:hover {
+  background: rgba(16, 185, 129, 0.1);
+  transform: translateX(5px);
+}
+
+.c2-b {
+  background: rgba(37, 99, 235, 0.05);
+  padding: var(--home-spacing-md);
+  border-radius: 12px;
+  border: 2px solid rgba(37, 99, 235, 0.1);
+  font-weight: 500;
+}
+
+/* Amélioration du header */
+.home-header {
+  background: white;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.home-logo {
+  transition: transform 0.3s ease;
+}
+
+.home-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .a {
+    width: 98vw;
+    padding: var(--home-spacing-sm);
+    gap: var(--home-spacing-md);
+  }
+  
+  .b, .c {
+    flex-direction: column;
+    padding: var(--home-spacing-md);
+    min-height: auto;
+  }
+
+  .c{
+    flex-direction: row;
+  }
+  
+  .b1-a {
+    font-size: 2rem;
+  }
+  
+  .b1-b {
+    font-size: 1.1rem;
+  }
+  
+  .b2 {
+    flex: none;
+  }
+  
+
+  .c1-a, .c2-a {
+    font-size: 1.5rem;
+  }
+  
+  .c1-b, .c2-b {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .b1-a {
+    font-size: 1.8rem;
+  }
+  
+  .b1-b {
+    font-size: 1rem;
+  }
+  
+  .c1-a, .c2-a {
+    font-size: 1.3rem;
+  }
+}
+
+/* Animations au scroll */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.b, .c {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.c {
+  animation-delay: 0.2s;
+}
+
+/* Effets hover pour l'interactivité */
+.b, .c {
+  transition: all 0.3s ease;
+}
+
+.b:hover, .c:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+}
+
+/* Style pour le background principal */
+.main-home {
+  background: var(--background-color);
+  position: relative;
+}
+
+.main-home::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(37, 99, 235, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+}
