@@ -22,17 +22,22 @@ export default class ScreenshotCarousel extends Component {
       {
         src: '/assets/1.png',
         alt: 'Screenshot 1 de l\'application',
-        title: 'Retranscrivez en direct la parole des citoyens '
+        title: 'Ouvrez l’application sur votre navigateur. '
       },
       {
         src: '/assets/2.png',
         alt: 'Screenshot 2 de l\'application',
-        title: 'Proposez de leur envoyer la synthèse'
+        title: 'Échangez librement avec un·e habitant·e.'
       },
       {
         src: '/assets/3.png',
         alt: 'Screenshot 3 de l\'application',
-        title: 'Accédez à une synthèse'
+        title: 'Partagez en quelques secondes un résumé clair'
+      },
+            {
+        src: '/assets/4.png',
+        alt: 'Screenshot 3 de l\'application',
+        title: 'Plateforme administrateur'
       }
     ];
   }
