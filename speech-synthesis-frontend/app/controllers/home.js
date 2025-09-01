@@ -12,6 +12,42 @@
     // Redirige vers le lien
     window.location.href = mailtoLink;
     }
+    @action
+    scrollToContact(event){
+         event?.preventDefault();
+
+  const element = document.querySelector(".c11-b"); // ta div avec la class
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  }
+   const mailtoLink = `mailto:Contact@applicitoyenne.fr`;
+
+    // Redirige vers le lien
+    window.location.href = mailtoLink;
+    }
+
+        @action
+    scrollToPlus(event){
+         event?.preventDefault();
+
+  const element = document.querySelector(".c11-b"); // ta div avec la class
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+    }
+
+
+        @action
+    scrollToMinutes(event){
+         event?.preventDefault();
+
+  const element = document.querySelector(".b1"); // ta div avec la class
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+    }
+
  @action
   scrollToSection(event) {
     event.preventDefault();

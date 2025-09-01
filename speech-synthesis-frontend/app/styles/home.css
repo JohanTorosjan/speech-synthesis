@@ -68,7 +68,7 @@ background-color: grey;
 }
 
 .home-logo{
-    width: 30dvw;
+    width: 23dvw;
 
     height: auto;
 }
@@ -373,6 +373,11 @@ padding-left: 2dvw;
     flex: none;
   }
   
+.home-logo{
+    width: 30dvw;
+
+    height: auto;
+}
 
   .c1-a, .c2-a {
     font-size: 1.3rem;
@@ -618,4 +623,38 @@ padding-left: 2dvw;
 }
 .bold{
   color: black;
+}
+
+
+.middle{
+  width: 60%;
+}
+.header-right{
+  width: 30%;
+  font-size: 0.8rem;
+}
+.Lapplication{
+  width: 100%;
+    padding: 0.5rem;
+  background-color: #09ef06;
+  border-radius: 8px;
+
+}
+.Minutes{
+  width: 100%;
+  padding: 0.5rem;
+    
+
+}
+
+.Nouscontacter{
+  width: 100%;
+    padding: 0.3rem;
+
+}
+.Apropos{
+    padding: 0.2rem;
+  border-radius: 8px;
+
+  width: 100%;
 }
