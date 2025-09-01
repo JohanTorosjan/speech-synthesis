@@ -15,7 +15,7 @@ class TextAnalysisCrew:
         self.llm = LLM(
             model="mistral/mistral-large-latest",
             api_key="xMpsXmyfrawoSqMqryd1re5Ap3ejdBLO",
-            temperature=0.7
+            temperature=0.5
         )
     
     def create_agents(self):
