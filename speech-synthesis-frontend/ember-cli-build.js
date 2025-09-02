@@ -6,6 +6,11 @@ module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     fingerprint: {
       exclude: ['assets/**/*']
+    },
+    sri: {
+      enabled: false  // Désactive SRI globalement
+      // OU pour être plus spécifique :
+      // exclude: ['assets/**/*']
     }
     // Add options here
   });
