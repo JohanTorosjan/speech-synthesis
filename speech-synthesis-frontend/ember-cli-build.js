@@ -7,7 +7,11 @@ module.exports = function (defaults) {
     fingerprint: {
       exclude: ['assets/**/*']
     },
-    
+    sri: {
+      enabled: false  // Désactive SRI globalement
+      // OU pour être plus spécifique :
+      // exclude: ['assets/**/*']
+    }
     // Add options here
   });
 
