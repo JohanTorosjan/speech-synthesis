@@ -5,14 +5,19 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     fingerprint: {
-      exclude: ['assets/**/*']
+      enabled: true,
+      // Ne pas exclure les fingerprints, mais gérer SRI différemment
+      generateAssetMap: true
     },
     sri: {
-      enabled: false  // Désactive SRI globalement
-      // OU pour être plus spécifique :
-      // exclude: ['assets/**/*']
+      enabled: true,
+      // Excluez seulement les assets qui changent fréquemment
+      exclude: [
+        'assets/images/**/*',
+        'assets/fonts/**/*',
+        '**/speech-synthesis-frontend.js'
+      ]
     }
-    // Add options here
   });
 
   return app.toTree();
