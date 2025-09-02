@@ -7,6 +7,11 @@
   {{on "mouseleave" this.onMouseLeave}}
 >
   <div class="carousel-container">
+        {{#if this.currentScreenshot.title}}
+      <div class="image-title">
+        {{this.currentScreenshot.title}}
+      </div>
+    {{/if}}
     <!-- Image principale -->
     <div class="main-image-container">
       <img 
@@ -51,10 +56,6 @@
     </div>
 
     <!-- Titre de l'image actuelle -->
-    {{#if this.currentScreenshot.title}}
-      <div class="image-title">
-        {{this.currentScreenshot.title}}
-      </div>
-    {{/if}}
+
   </div>
 </div>

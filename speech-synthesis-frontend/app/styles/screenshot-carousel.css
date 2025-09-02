@@ -108,6 +108,7 @@
   backdrop-filter: blur(4px);
   align-self: center;
   font-size: 0.8rem;
+  margin-bottom: 2dvh;
 }
 
 /* Responsive */
