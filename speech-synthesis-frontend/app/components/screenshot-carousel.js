@@ -30,12 +30,12 @@ export default class ScreenshotCarousel extends Component {
         title: 'Échangez librement avec un·e habitant·e.'
       },
       {
-        src: '/assets/3.png',
+        src: '/assets/AB.png',
         alt: 'Screenshot 3 de l\'application',
         title: 'Partagez en quelques secondes un résumé clair'
       },
             {
-        src: '/assets/4.png',
+        src: '/assets/AC.png',
         alt: 'Screenshot 3 de l\'application',
         title: 'Plateforme administrateur'
       }
