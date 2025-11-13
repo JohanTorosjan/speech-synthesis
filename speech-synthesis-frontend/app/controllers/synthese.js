@@ -19,13 +19,24 @@ export default class SyntheseController extends Controller {
   get displayedMail() {
     const date = new Date(this.model.created_at);
     const formattedDate = this.formatDateToFrenchString(date);
+    let toSend= '';
+    if (this.selectedType === 'Dialogue') {
+      toSend = this.model.dialogue_structure;
+    }
+
+    if (this.selectedType === 'Synthèse') {
+        toSend = this.model.analysis_result;
+    }
+    if (this.selectedType === 'Mail') {
+        toSend = `\n Synthèse : ${this.model.analysis_result} \n \n Dialogue : ${this.model.dialogue_structure}`;
+    }
 
     return `Cher Madame/Monsieur,\n\nSuite à notre entrevue du ${formattedDate}, veuillez trouver ci-joint la synthèse. Celle-ci est réalisée avec une Intelligence Artificielle sur la basse de la reconnaissance vocale de notre échange.
 Il n’y a pas eu d’enregistrement sur des serveurs.
 Ce traitement étant automatique, il peut évidemment y avoir des erreurs, et des malentendus dus au traitement automatique de la machine.
 Vous pouvez en répondant à ce mail corriger, ou apporter des éléments.
 Cet entretien ne fera l’objet d’aucun traitement ni automatique ni manuel individualisé : il reste anonyme à moins que vous nous informiez du contraire.
- \n------------------\nSynthèse :\n${this.model.analysis_result}\n------------------\n Les Ecologistes pour Montpellier 
+ \n------------------\n${toSend}\n------------------\n Les Ecologistes pour Montpellier 
 Retrouvez nous sur notre site Internet : https://ecologistespourmontpellier.fr/
 06 86 53 49 51 
  \n------------------\n
